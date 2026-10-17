@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Emilia Development Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200..900&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark}
+
+:root{--bg:#120a06;--ink:#eadfd5;--dim:rgba(234,223,213,.62);--line:rgba(234,223,213,.14);--brass:#f0c291;--card:rgba(24,14,9,.96);--f:JostX,Jost,system-ui,sans-serif}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--f);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.lb{font:500 11px/1.4 var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.lb b{color:var(--brass);font-weight:500}
+/* header pastila */
+.pill{position:fixed;z-index:50;top:14px;left:14px;right:14px;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 18px 0 22px;background:rgba(40,24,15,.5);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:6px}
+.pill img{height:24px;display:block}
+.pill nav{display:flex;align-items:center;gap:34px;font:500 11px/1 var(--f);letter-spacing:.14em;text-transform:uppercase}
+.pill nav a{opacity:.8;transition:opacity .3s}.pill nav a:hover{opacity:1}
+.pill .go{display:flex;align-items:center;gap:10px;background:rgba(234,223,213,.08);padding:12px 16px;border-radius:3px;opacity:1}
+.pill .go i{width:7px;height:7px;border-radius:50%;background:var(--brass);display:block}
+.mt{position:fixed;z-index:60;left:22px;bottom:22px;font:500 11px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;background:var(--brass);color:#1a0d06;border:0;padding:14px 18px;border-radius:3px;cursor:pointer;display:none}
+.rm-sys .mt{display:block}
+.bar{position:fixed;z-index:50;left:0;bottom:0;height:2px;background:var(--brass);width:0}
+/* indice lateral */
+.side{position:fixed;z-index:40;left:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px}
+.side a{display:grid;place-items:center;width:38px;height:34px;border-radius:3px;background:rgba(234,223,213,.06);font:500 10px/1 var(--f);letter-spacing:.06em;color:var(--dim);border:1px solid transparent;transition:all .35s}
+.side a.on{background:var(--ink);color:#1a0d06}
+/* scena */
+.story{position:relative}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden;z-index:0}
+#gl,#sv{position:absolute;inset:0;width:100%;height:100%;display:block}
+#sv .s{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#sv .d{stroke-dasharray:1;stroke-dashoffset:1}
+#sv .f0{opacity:0}
+#sv .g{transform-box:fill-box;transform-origin:50% 100%;transform:scale(0)}
+#sv .ink{fill:var(--ink)}
+#sv .vol{fill:rgba(18,10,6,.5)}
+#sv .cir{stroke:var(--ink);opacity:.17;stroke-width:1.2}
+.gl-on #sky,.gl-on #hills,.gl-on #ground{display:none}
+.chs{position:relative;z-index:2;margin-top:-100vh}
+/* hero */
+.hero{min-height:165vh;padding:96px 28px 0;position:relative}
+.hero .in{position:sticky;top:0;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:96px 0 34px;will-change:transform,opacity}
+.bigname{font:700 clamp(92px,24vw,420px)/.8 var(--f);letter-spacing:-.065em;margin:0 0 0 -.04em;color:#fff}
+.bigname i{font-style:normal;color:var(--brass)}
+.dg{font:500 clamp(12px,1.1vw,16px)/1 var(--f);letter-spacing:.5em;text-transform:uppercase;margin:12px 0 0 6px;color:var(--dim)}
+.h1w{font:600 clamp(26px,3.5vw,58px)/1.08 var(--f);letter-spacing:-.035em;max-width:900px;margin:44px 0 0}
+.h1w .w{color:rgba(234,223,213,.26);transition:color .5s}.h1w .w.lit{color:#fff}
+.hbot{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+.hbot p{margin:0;max-width:420px;font:400 15px/1.65 var(--f);color:var(--dim)}
+.btns{display:flex;gap:10px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:10px;font:500 11px/1 var(--f);letter-spacing:.12em;text-transform:uppercase;padding:16px 20px;border-radius:3px;background:var(--brass);color:#1a0d06}
+.btn.gh{background:rgba(234,223,213,.08);color:var(--ink)}
+.btn i{width:6px;height:6px;border-radius:50%;background:currentColor;display:block}
+/* carduri stivuite */
+.stack{position:relative;padding:0 28px 30vh}
+.card{position:sticky;top:calc(15vh + var(--i)*26px);width:min(540px,42vw);min-height:360px;margin:0 0 56vh;padding:30px 32px 28px;background:var(--card);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:6px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .8s cubic-bezier(.2,.7,.1,1),opacity .8s,filter .8s;transform-origin:50% 0}
+.card:last-child{margin-bottom:0}
+.card .top{display:flex;justify-content:space-between;align-items:center}
+.card h3{font:600 clamp(34px,3.6vw,60px)/1.02 var(--f);letter-spacing:-.04em;margin:36px 0 0;color:#fff;max-width:11em}
+.card p{font:400 15px/1.65 var(--f);color:var(--dim);margin:20px 0 0;max-width:380px}
+.card .ft{display:flex;justify-content:space-between;align-items:flex-end;margin-top:34px}
+.card .ar{display:grid;place-items:center;width:38px;height:38px;border-radius:3px;background:var(--brass);color:#1a0d06;font:500 16px/1 var(--f)}
+.card.buried{transform:scale(.955) translateY(-10px);opacity:.5;filter:blur(.6px)}
+.card .ln,.card .rv{transition:transform 1s cubic-bezier(.2,.7,.1,1),opacity .9s}
+.card:not(.on) .rv{opacity:0;transform:translateY(18px)}
+/* echipa */
+.team{position:relative;padding:20vh 28px 12vh;min-height:130vh}
+.team h2,.proj h2{font:600 clamp(40px,6vw,104px)/.98 var(--f);letter-spacing:-.05em;margin:18px 0 0;color:#fff;max-width:12em}
+.nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:70px;max-width:1000px}
+.num{background:var(--card);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:6px;padding:26px 28px 24px}
+.num b{display:block;font:700 clamp(80px,12vw,200px)/.9 var(--f);letter-spacing:-.07em;color:#fff}
+.num b sup{font-size:.5em;color:var(--brass);vertical-align:top}
+.num span{display:block;margin-top:18px}
+/* proiect */
+.proj{position:relative;min-height:150vh;padding:14vh 28px 0}
+.proj .box{position:sticky;top:50vh;transform:translateY(-50%);margin:30vh auto 0;width:min(430px,86vw);background:#f1e8de;color:#1a0d06;border-radius:4px;padding:18px 18px 22px}
+.proj .box .t{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.proj .box .t .lb{color:#1a0d06}
+.proj .box .t i{width:8px;height:8px;border-radius:50%;background:#a85d2c;display:block}
+.proj .ph{aspect-ratio:16/10;border-radius:2px;background:linear-gradient(135deg,#d8c3a8,#b8996f);position:relative;overflow:hidden}
+.proj .ph svg{position:absolute;inset:0;width:100%;height:100%}
+.proj .box h3{font:600 30px/1.05 var(--f);letter-spacing:-.035em;margin:18px 0 6px}
+.proj .box p{margin:0;color:rgba(26,13,6,.62);font:400 15px/1.5 var(--f)}
+.proj .box .ar{position:absolute;right:18px;bottom:18px;display:grid;place-items:center;width:34px;height:34px;border-radius:3px;border:1px solid rgba(26,13,6,.25);font:500 14px/1 var(--f)}
+.proj .idx{position:absolute;left:28px;top:50vh;display:flex;flex-direction:column;gap:8px}
+/* contact */
+.ct{position:relative;z-index:3;background:#0e0704;padding:150px 28px 90px;display:grid;grid-template-columns:5fr 7fr;gap:90px;border-top:1px solid var(--line)}
+.ct h2{font:700 clamp(60px,10vw,170px)/.86 var(--f);letter-spacing:-.065em;margin:18px 0 0;color:#fff}
+.ct h2 i{font-style:normal;color:var(--brass)}
+.ct p.l{font:400 17px/1.6 var(--f);color:var(--dim);max-width:420px;margin:34px 0 0}
+.f{display:grid;grid-template-columns:1fr 1fr;gap:30px 36px;align-self:end}
+.f label{display:block;margin-bottom:12px}
+.f input,.f textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(234,223,213,.3);color:var(--ink);font:400 17px/1.4 var(--f);padding:6px 0 12px;outline:0;border-radius:0}
+.f input:focus,.f textarea:focus{border-color:var(--brass)}
+.f .w{grid-column:1/3}
+.f button{grid-column:1/3;justify-self:start;border:0;cursor:pointer}
+.ftr{position:relative;z-index:3;background:#0e0704;padding:0 28px 40px;display:flex;justify-content:space-between;color:rgba(234,223,213,.45);font:400 12px/1.8 var(--f)}
+
+@property --s{syntax:'<percentage>';inherits:false;initial-value:-30%}
+[data-anim]{position:relative}
+[data-anim] .wd{display:inline-block;white-space:nowrap;position:relative}
+.m{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.12em;margin-bottom:-.12em}
+.m>span{display:inline-block}
+.mask .m>span{transform:translateY(115%);transition:transform 1.1s calc(var(--k)*80ms + 120ms) cubic-bezier(.2,.7,.1,1)}
+.mask::before{content:'';position:absolute;left:0;top:-14px;height:1px;width:56px;background:var(--brass);transform:scaleX(0);transform-origin:left;transition:transform 1s cubic-bezier(.2,.7,.1,1)}
+.on .mask .m>span{transform:none}.on .mask::before{transform:none}
+.chars .c{display:inline-block;opacity:0;transform:translateY(.95em) rotate(5deg);transition:transform .9s calc(var(--k)*32ms + 100ms) cubic-bezier(.3,1.6,.5,1),opacity .5s calc(var(--k)*32ms + 100ms)}
+.on .chars .c{opacity:1;transform:none}
+.sweep{--s:-30%;background:linear-gradient(100deg,#fff var(--s),rgba(234,223,213,.18) calc(var(--s) + 24%));-webkit-background-clip:text;background-clip:text;color:transparent;filter:blur(7px);transition:--s 2.6s cubic-bezier(.35,.6,.2,1) .15s,filter 1.4s .15s}
+.on .sweep{--s:112%;filter:none}
+.words .wd{opacity:0;transform:translateY(.45em);filter:blur(9px);transition:opacity .9s calc(var(--k)*170ms + 100ms),transform .9s calc(var(--k)*170ms + 100ms) cubic-bezier(.2,.7,.1,1),filter .9s calc(var(--k)*170ms + 100ms)}
+.on .words .wd{opacity:1;transform:none;filter:none}
+.words .acc{color:var(--brass)}
+.words .acc::after{content:'';position:absolute;left:0;right:0;bottom:-.04em;height:3px;background:var(--brass);transform:scaleX(0);transform-origin:left;transition:transform 1s 1.1s cubic-bezier(.2,.7,.1,1)}
+.on .words .acc::after{transform:none}
+.scrub .w{color:rgba(234,223,213,.26);transition:color .5s}.scrub .w.lit{color:#fff}
+.alt .c{display:inline-block;opacity:0;transform:translateX(calc(var(--dir)*.7em));transition:transform .9s calc(var(--k)*26ms + 80ms) cubic-bezier(.2,.7,.1,1),opacity .6s calc(var(--k)*26ms + 80ms)}
+.on .alt .c{opacity:1;transform:none}
+.dots::after{content:'...';display:inline-block;width:0;overflow:hidden;vertical-align:bottom;color:var(--brass);animation:dd 1.8s steps(4) infinite}
+@keyframes dd{to{width:1.05em}}
+.wave .c{display:inline-block;opacity:0;transform:translateY(.7em) scale(.7);transition:transform .8s calc(var(--k)*55ms + 100ms) cubic-bezier(.3,1.8,.5,1),opacity .4s calc(var(--k)*55ms + 100ms)}
+.on .wave .c{opacity:1;transform:none}
+.wave .c i{color:var(--brass);font-style:normal}
+.pb{position:absolute;left:0;bottom:0;height:2px;width:calc(var(--p,0)*100%);background:var(--brass);border-radius:0 0 0 6px;opacity:.9}
+.rm [data-anim] .c,.rm [data-anim] .m>span,.rm .words .wd{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+.rm .sweep{--s:112%;filter:none;transition:none}.rm .dots::after{animation:none;width:1.05em}.rm .mask::before,.rm .words .acc::after{transform:none;transition:none}
+
+
+.pill .pr{display:flex;align-items:center;gap:8px}
+.mn{display:flex;align-items:center;gap:10px;background:rgba(234,223,213,.08);color:var(--ink);border:0;border-radius:3px;padding:12px 16px;font:500 11px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.mn span{color:var(--brass);font-size:16px;line-height:1;transition:transform .5s cubic-bezier(.2,.7,.1,1);display:inline-block}
+.menu-open .mn span{transform:rotate(45deg)}
+.menu{position:fixed;inset:0;z-index:45;background:rgba(10,5,3,.97);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);display:grid;grid-template-columns:7fr 5fr;gap:60px;padding:110px 28px 36px 88px;clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .85s cubic-bezier(.7,0,.2,1),visibility 0s .85s}
+.menu.open{clip-path:inset(0);visibility:visible;transition:clip-path .85s cubic-bezier(.7,0,.2,1)}
+.menu ol{list-style:none;margin:0;padding:0;align-self:center}
+.menu li{overflow:hidden}
+.menu li a{display:flex;align-items:baseline;gap:24px;padding:4px 0;font:600 clamp(40px,6.6vw,108px)/1.04 var(--f);letter-spacing:-.05em;color:rgba(234,223,213,.34);transition:color .3s,transform .5s cubic-bezier(.2,.7,.1,1)}
+.menu li a:hover{color:#fff;transform:translateX(16px)}
+.menu li a small{font:500 11px/1 var(--f);letter-spacing:.14em;color:var(--brass);min-width:26px}
+.menu li a span{display:block;transform:translateY(112%);transition:transform .9s cubic-bezier(.2,.7,.1,1)}
+.menu.open li a span{transform:none;transition-delay:calc(.3s + var(--i)*70ms)}
+.menu .info{align-self:end;display:flex;flex-direction:column;gap:18px;max-width:380px;opacity:0;transform:translateY(20px);transition:opacity .8s .55s,transform .8s .55s}
+.menu.open .info{opacity:1;transform:none}
+.menu .info p{margin:0;font:400 15px/1.65 var(--f);color:var(--dim)}
+.menu .info .em{font:500 17px/1.3 var(--f);color:var(--brass)}
+.about{position:relative;min-height:120vh;padding:22vh 28px 16vh;display:flex;flex-direction:column;justify-content:center}
+.abig{font:600 clamp(26px,3.6vw,60px)/1.12 var(--f);letter-spacing:-.04em;max-width:1040px;margin:26px 0 0}
+.acols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:70px;max-width:1100px}
+.acols>div{background:var(--card);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:6px;padding:22px 24px 26px}
+.acols p{margin:16px 0 0;font:400 15px/1.65 var(--f);color:var(--dim)}
+.rv2{opacity:0;transform:translateY(30px);transition:opacity .9s,transform .9s cubic-bezier(.2,.7,.1,1)}
+.rv2:nth-child(2){transition-delay:.12s}.rv2:nth-child(3){transition-delay:.24s}
+.about.on .rv2{opacity:1;transform:none}
+.water line{stroke-dasharray:26 16;animation:wv 5s linear infinite}
+.water line:nth-child(2){animation-duration:7s;animation-direction:reverse}
+@keyframes wv{to{stroke-dashoffset:-84}}
+.rm .water line{animation:none}.rm .rv2{opacity:1;transform:none;transition:none}
+@media(min-width:821px){.about{padding-left:88px}}
+@media(max-width:820px){.menu{grid-template-columns:1fr;gap:30px;padding:96px 20px 30px}.menu li a{font-size:clamp(36px,11vw,64px)}.acols{grid-template-columns:1fr}.about{padding:18vh 18px 12vh}}
+@media(min-width:821px){.hero,.stack,.team,.proj{padding-left:88px}.ct,.ftr{padding-left:88px}}
+@media(max-width:820px){
+ .pill nav a:not(.go){display:none}.side{display:none}
+ .card{top:calc(54vh + var(--i)*14px);width:calc(100% - 0px);min-height:0;padding:22px;margin-bottom:46vh}
+ .card h3{margin-top:18px;font-size:clamp(30px,9vw,46px)}.card .ft{margin-top:18px}
+ .hero .in{padding-top:90px}.hbot{flex-direction:column;align-items:flex-start;gap:10px}
+ .nums{grid-template-columns:1fr}.num b{font-size:96px}
+ .ct{grid-template-columns:1fr;gap:50px;padding:110px 20px 70px}.f{grid-template-columns:1fr}.f .w,.f button{grid-column:1}
+ .ftr{flex-direction:column;padding:0 20px 36px}.stack{padding:0 14px 20vh}.hero,.team,.proj{padding-left:18px;padding-right:18px}
+ .mt{left:14px;bottom:14px}
+}
+.rm .card,.rm .card .rv{transition:none}.rm .card:not(.on) .rv{opacity:1;transform:none}
+
+/* V2b: mai puține goluri */
+.hero{min-height:132vh}
+.stack{padding-bottom:10vh}
+.card{width:min(560px,44vw);min-height:420px;margin-bottom:30vh}
+.card h3{margin-top:30px}
+.about{min-height:100vh;padding-top:17vh;padding-bottom:9vh}
+.team{min-height:100vh;padding-top:15vh;padding-bottom:6vh}
+.proj{min-height:118vh;padding-top:10vh}
+.proj .box{margin-top:22vh}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chips span{padding:7px 12px;border:1px solid var(--line);border-radius:999px;font:500 10.5px/1 var(--f);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.card .chips.rv span{opacity:0;transform:translateY(10px);transition:opacity .6s,transform .6s}
+.card.on .chips.rv span{opacity:1;transform:none}
+.card.on .chips.rv span:nth-child(1){transition-delay:.5s}.card.on .chips.rv span:nth-child(2){transition-delay:.62s}.card.on .chips.rv span:nth-child(3){transition-delay:.74s}
+.ghost{position:absolute;right:3vw;top:7vh;width:46vw;height:62vh;pointer-events:none;z-index:1}
+.ghost span{position:absolute;right:0;top:0;font:700 clamp(200px,30vw,520px)/.85 var(--f);letter-spacing:-.09em;color:transparent;-webkit-text-stroke:1.5px rgba(234,223,213,.13);opacity:0;transform:translateY(60px) scale(.96);transition:opacity .8s,transform 1.1s cubic-bezier(.2,.7,.1,1);will-change:transform,opacity}
+.ghost span.on{opacity:1;transform:none}
+.mq{position:absolute;left:0;bottom:2.5vh;width:max-content;white-space:nowrap;display:flex;font:700 clamp(70px,10vw,170px)/1 var(--f);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px rgba(234,223,213,.11);transform:translateX(var(--mx,0));will-change:transform;opacity:var(--mo,0);z-index:1}
+.rm .ghost span{transition:none}.rm .mq{transform:none}
+@media(max-width:820px){.card{margin-bottom:34vh;width:100%}.ghost{top:6vh;width:70vw}.mq{font-size:64px}}
+
+/* V2c: performanță */
+.card,.num,.acols>div{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.ghost span,.mq,.card{will-change:auto}
+.lite .ghost,.lite .mq,.lite .water line{display:none}
+.lite .pill,.lite .menu{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(14,8,5,.92)}
+.dbg{position:fixed;z-index:99;right:10px;bottom:10px;max-width:46vw;padding:10px 12px;background:rgba(0,0,0,.82);color:#9fe39f;font:500 11px/1.5 ui-monospace,Consolas,monospace;border:1px solid #2e5a2e;border-radius:4px;white-space:pre-wrap;pointer-events:none}
+
+/* Lenis: fără conflict cu scroll-behavior din emilia.css */
+html,html.lenis{scroll-behavior:auto!important}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-stopped{overflow:hidden}
+
+/* poartă PIN */
+html.locked,html.locked body{overflow:hidden;height:100%}
+#gate{position:fixed;inset:0;z-index:300;background:radial-gradient(90% 70% at 70% 100%,#3a1c0e 0%,#140a05 55%,#0b0603 100%);display:grid;place-items:center;padding:24px;transition:opacity .7s,visibility 0s .7s}
+#gate.out{opacity:0;visibility:hidden}
+#gate .g-in{width:min(420px,100%);display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+#gate .g-logo{height:30px;width:auto;display:block;margin-bottom:26px}
+#gate .g-lb{font:500 11px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0}
+#gate .g-lb b{color:var(--brass);font-weight:500}
+#gate h2{font:600 clamp(34px,6vw,52px)/1.04 var(--f);letter-spacing:-.04em;color:#fff;margin:0}
+#gf{display:flex;gap:10px;width:100%;margin-top:6px}
+#gpin{flex:1;min-width:0;background:transparent;border:0;border-bottom:1px solid rgba(234,223,213,.35);color:#fff;font:600 34px/1.2 var(--f);letter-spacing:.5em;padding:6px 0 10px;outline:0;border-radius:0}
+#gpin:focus{border-color:var(--brass)}
+#gf button{border:0;background:var(--brass);color:#1a0d06;font:500 11px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;padding:0 22px;border-radius:3px;cursor:pointer}
+#gerr{min-height:1.4em;margin:0;font:400 14px/1.4 var(--f);color:#e9a98a}
+#gate.shake .g-in{animation:gs .45s}
+@keyframes gs{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+
+</style>
+<script>document.documentElement.classList.add('locked')</script>
+</head>
+<body>
+<div id="gate" role="dialog" aria-modal="true" aria-label="Acces cu cod PIN"><div class="g-in">
+ <img class="g-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MjkuMzkiIGhlaWdodD0iMTUyLjYxIiB2aWV3Qm94PSIwIDAgODI5LjM5IDE1Mi42MSI+PHBhdGggZmlsbD0iI2VhZGZkNSIgZD0iTTE3MC41OTQgODUuMTI0Yy0zLjIzLTEzLjktOC43MDktMjUuOTUzLTIwLjgyLTMzLjUwOC0xMy44NDEtOC41MzUtMjEuMjgtMTEuMzYtNDUuNzkxLTExLjM2SDg4LjA2NXMxMS41OTIgMS4zODMgMTQuMDcyIDEuODQ1YzE2LjY2NyAyLjk5OSAyNy43OTggMS42NzIgMzkuNzk0IDE0LjMwMiAxOS42NjYgMjAuNzA0IDIwLjc2MiA2Mi42MzIuMjg4IDgzLjIyLTEwLjg0MiAxMC45NTktMjIuNDkyIDEwLjM4Mi0zNi42OCAxMC4zODIgMC0xLjc4OC0uMDU3LTMuNTc2LS4xMTUtNS4zNjRWMTI0LjYzYy4wNTgtOS42ODkuMjMxLTE5LjQzNSAwLTI5LjAwOXYtOC4zMDVjLjExNi0zLjE3Mi4yMzEtNi40MDEuMTczLTkuNTczLjU3Ny02LjA1Ni0uMDU3LTI5LjI5OC00MC4zNy0zNy41NDUtLjI4OC0xMi4xMSAwLTI1LjI2IDAtMzcuMzcxIDAgLjA1OCA1OC45NC0xLjUgNjMuMDM2LTIuODI2SDIzLjAxMmMxOC4xNjYgMy40NiAxOC4zOTYgNi4xMTMgMTguMzk2IDIzLjkzNFY0MC4xNEMyNy43OTggNDMuMjU0IDExLjMwNCA1Mi43Ny4xNzMgNzUuMjA0YzAgMCAuMTczLS4yMy40NjEtLjY5Mi0uMjMuNDA0LS40NjEuODA4LS42MzQgMS4yMTFoLjE3M2E4NSA4NSAwIDAgMSA0LjY3MS02LjU3NCAxMjAgMTIwIDAgMCAxIDcuNDQtOC4xOWM4LjQyLTguMDc0IDE4LjU3LTE0LjUzMyAyOS4xODItMTcuMDEzIDAgNy43ODYtLjExNSA4Ni45Ny0uMTE1IDk1LjUwNXMtOS4yMjggMTEuNTkyLTE4LjA1MiAxMy4xNWg4MS4xNDVjOS41MTYgMCAxOC4yODIuMjg3IDI3LjY4My0xLjkwNCAxMy4yNjQtMi45NDEgMjQuNzk5LTExLjEzIDMyLjAwOC0yMi43MjMgNy43MjgtMTIuNDU3IDkuNjg4LTI4LjgzNiA2LjM0My00My4wMjNaTTY1LjM0MiAxNDkuOTQ3VjQ0LjAwNGMxNC40NzYgMi45OTkgMjMuOTM0IDEwLjk1NyAyNi41MyAyNC4wNDkuNDYgMi44MjYuNzUgNi41MTcuNzUgMTEuMjQ2djcwLjU5aC0yNy4yOFptMjExLjc0Ny02MC45NDFjMi41IDAgNC43LS41IDYuNS0xLjhzMy40LTIuNyA0LjktNC41IDIuNS0zLjYgMy40LTUuNiAxLjYtMy44IDIuMi01LjJoMS4xbC00IDE4LjdoLTU4di0uOWMuOSAwIDEuNi0uNCAyLjItLjkuNS0uNSAxLjEtMS4xIDEuNi0yIC40LS45LjctMi4yLjctNHYtNjIuM2MwLTEuOC0uMi0zLjEtLjctNHMtLjktMS42LTEuNi0yYy0uNS0uNS0xLjQtLjctMi4yLS45di0uOWg1NS45bDQgMTguN2gtMS4xYy0uNS0xLjQtMS4zLTMuMi0yLjItNS4ycy0yLTQtMy40LTUuOC0zLjEtMy4yLTQuOS00LjUtNC4xLTEuOC02LjctMS44aC0yNXYzNS4xaDE3LjhjMi41IDAgNC45LS43IDYuNy0yLjMgMi0xLjYgMi45LTMuOCAzLjEtNi41aC45djE5LjFoLS45YzAtMS4zLS40LTIuNS0uOS0zLjZzLTEuMy0yLjItMi4yLTIuOWMtLjktLjktMi0xLjQtMy4xLTItMS4xLS41LTIuMy0uNy0zLjYtLjdoLTE3Ljh2MzguNmgyNy40Wm04Ny4zIDEuNWgtMTAuNnYtLjljLjkgMCAxLjYtLjQgMi4yLS45LjUtLjUgMS4xLTEuMSAxLjYtMiAuNC0uOS43LTIuMi43LTR2LTYyLjNjMC0xLjgtLjItMy4xLS43LTRzLS45LTEuNi0xLjYtMmMtLjUtLjUtMS40LS43LTIuMi0uOXYtLjloMTguNGwyMS4xIDU2LjkgMTkuMS01Ni45aDE2LjZ2LjljLS43IDAtMS40LjQtMi4yLjktLjUuNC0xLjEgMS4xLTEuNiAyLS40LjktLjcgMi4yLS43IDR2NjIuM2MwIDEuOC4yIDMuMS43IDRzLjkgMS42IDEuNiAyYy41LjUgMS4zLjcgMi4yLjl2LjloLTIxLjF2LS45Yy45IDAgMS42LS40IDIuMi0uOS41LS41IDEuMS0xLjEgMS42LTIgLjQtLjkuNy0yLjIuNy00di02NC43bC0yMy44IDcyLjRoLTIuMmwtMjYuNy03Mi4ydjY0LjVjMCAxLjguMiAzLjEuNyA0cy45IDEuNiAxLjQgMmMuNS41IDEuNC43IDIuMi45di45em0xMjMuMi03Ny43aDIxLjF2LjljLS43IDAtMS40LjQtMi4yLjktLjUuNC0xLjEgMS4xLTEuNiAyLS40LjktLjcgMi4yLS43IDR2NjIuM2MwIDEuOC4yIDMuMS43IDRzLjkgMS42IDEuNiAyYy41LjUgMS4zLjcgMi4yLjl2LjloLTIxLjF2LS45Yy45IDAgMS42LS40IDIuMi0uOS41LS41IDEuMS0xLjEgMS42LTIgLjQtLjkuNy0yLjIuNy00di02Mi4zYzAtMS44LS4yLTMuMS0uNy00cy0uOS0xLjYtMS42LTJjLS41LS41LTEuNC0uNy0yLjItLjl6bTE5Mi40IDBoMjEuMXYuOWMtLjcgMC0xLjQuNC0yLjIuOS0uNS40LTEuMSAxLjEtMS42IDItLjQuOS0uNyAyLjItLjcgNHY2Mi4zYzAgMS44LjIgMy4xLjcgNHMuOSAxLjYgMS42IDJjLjUuNSAxLjMuNyAyLjIuOXYuOWgtMjEuMXYtLjljLjkgMCAxLjYtLjQgMi4yLS45czEuMS0xLjEgMS42LTJjLjQtLjkuNy0yLjIuNy00di02Mi4zYzAtMS44LS4yLTMuMS0uNy00cy0uOS0xLjYtMS42LTJjLS41LS41LTEuNC0uNy0yLjItLjl6bTE0Ny43IDc2LjJjLS41LS40LTEuMS0xLjEtMS44LTJzLTEuNC0yLjMtMi00LjFjLS43LTItMS42LTQuNS0yLjktNy40LTEuMS0zLjEtMi41LTYuMy00LTkuOS0xLjQtMy42LTMuMS03LjQtNC41LTExLjUtMS42LTQtMy4yLTcuOS00LjctMTEuNy0zLjYtOS4yLTcuNi0xOC45LTExLjctMjkuMmgtNC4xYy0yLjIgNS42LTQuMyAxMS40LTYuNSAxNy4xLS45IDIuMy0yIDUtMy4xIDcuN3MtMi4yIDUuNi0zLjIgOC41Yy0xLjEgMi45LTIuMiA1LjYtMy4yIDguNS0xLjEgMi45LTIuMiA1LjYtMy4xIDguMSAwIDAtMi4yIDUuNi0zLjEgNy45cy0xLjggNC41LTIuMyA2LjNjLS45IDIuMi0xLjYgNC4xLTIuMiA1LjktLjcgMS44LTEuNCAzLjItMiA0LjEtLjcuOS0xLjMgMS42LTEuOCAyLS43LjQtMS4zLjUtMS44LjV2LjloOS41di0uOWMtLjkgMC0xLjYtLjUtMi4yLTEuMS0uNS0uNS0uNy0xLjEtMS4xLTItLjItLjkgMC0yIC41LTMuNi40LS45IDEuMy0zLjEgMi41LTYuNyAxLjMtMy40IDIuOS03LjYgNC43LTEyLjNsLjUtMS40YzEuNi00LjEgMy4yLTguMyA0LjktMTIuNiAxLjYtNC4zIDMuMS04LjMgNC41LTExLjcgMS42LTQuMSAzLjItOC4xIDQuNy0xMS45IDEuNiAzLjggMy4yIDcuNyA0LjkgMTEuOSAxLjQgMy42IDMuMSA3LjQgNC43IDExLjcgMS44IDQuMyAzLjQgOC41IDUgMTIuOGwuNSAxLjRjMS44IDQuNSAzLjQgOC41IDQuNyAxMS45IDEuMyAzLjYgMi4zIDYuMSAyLjkgNy42LjUgMS4zLjUgMi4zLjQgMy4ycy0uNSAxLjQtMS4xIDEuOGMtLjUuNC0xLjQuNy0yLjIuOXYuOWgyMS40di0uOWMtLjUgMC0xLjMtLjItMS44LS41bC0uMi0uNFptLTIyNC40IDMuOGMyLjUgMCA0LjctLjUgNi43LTEuOHMzLjYtMi43IDQuOS00LjVjMS40LTEuOCAyLjUtMy42IDMuNC01LjZzMS42LTMuOCAyLjItNS4yaC45bC0zLjggMTguN2gtNTAuMXYtLjljLjkgMCAxLjYtLjQgMi4yLS45LjUtLjUgMS4xLTEuMSAxLjYtMiAuNC0uOS43LTIuMi43LTR2LTYyLjNjMC0xLjgtLjItMy4xLS43LTRzLS45LTEuNi0xLjYtMmMtLjUtLjUtMS40LS43LTIuMi0uOXYtLjloMjEuMXYuOWMtLjcgMC0xLjQuNC0yLjIuOS0uNS40LTEuMSAxLjEtMS42IDItLjQuOS0uNyAyLjItLjcgNHY2OC41aDE5LjNabS0zNzAuMiA0N3YtMjIuM2g3LjhjMS43IDAgMy4zLjMgNC43LjhzMi42IDEuMyAzLjYgMi4yYzEgMSAxLjggMi4xIDIuMyAzLjVzLjggMi45LjggNC42LS4zIDMuMy0uOCA0LjctMS4zIDIuNi0yLjMgMy41Yy0xIDEtMi4yIDEuNy0zLjYgMi4ycy0zIC44LTQuNy44em0yLjQtLjdoNS40YzEuNSAwIDIuOC0uMyAzLjktLjggMS4xLS42IDIuMS0xLjMgMi44LTIuMnMxLjMtMi4xIDEuNy0zLjNjLjQtMS4zLjYtMi43LjYtNC4xcy0uMi0yLjgtLjYtNC4xLTEtMi40LTEuNy0zLjMtMS43LTEuNy0yLjgtMi4yYy0xLjEtLjYtMi40LS44LTMuOS0uOGgtNS40djIxWm00OC45LTEwLjJoLTExLjd2MTAuMmgxMy4zdi42aC0xNS43di0yMi4zaDE1di42aC0xMi43djEwLjJoMTEuN3YuNlptMTguNS0xMS40aDIuN2w4LjEgMTguNiA4LjMtMTguNmguNmwtOS45IDIyLjMtOS45LTIyLjNabTUxLjEgMTEuNGgtMTEuN3YxMC4yaDEzLjN2LjZoLTE1Ljd2LTIyLjNoMTV2LjZoLTEyLjd2MTAuMmgxMS43di42Wm0yMC4zLTExLjRoMi40djIxLjdoMTIuM3YuNmgtMTQuN3ptMzAuNiAxMS4xYzAtMS43LjMtMy4zLjktNC43cS45LTIuMSAyLjQtMy42YzEtMSAyLjMtMS44IDMuNy0yLjNzMy0uOCA0LjctLjggMy4zLjMgNC43LjggMi43IDEuMyAzLjcgMi4zIDEuOSAyLjIgMi40IDMuNmMuNiAxLjQuOSAzIC45IDQuN3MtLjMgMy4zLS45IDQuN3EtLjkgMi4xLTIuNCAzLjZjLTEgMS0yLjMgMS44LTMuNyAyLjNzLTMgLjgtNC43LjgtMy4zLS4zLTQuNy0uOC0yLjctMS4zLTMuNy0yLjNxLTEuNS0xLjUtMi40LTMuNmMtLjYtMS40LS45LTMtLjktNC43bTIuMyAwcTAgMi4yNS42IDQuMmMuNCAxLjMgMSAyLjUgMS44IDMuNC44IDEgMS44IDEuOCAzIDIuM3ExLjguOSAzLjkuOXQzLjktLjljMS4yLS42IDIuMS0xLjMgMi45LTIuM3MxLjQtMi4xIDEuOS0zLjRxLjYtMS45NS42LTQuMmMwLTEuNS0uMi0yLjgtLjYtNC4xcy0xLTIuNC0xLjktMy40Yy0uOC0xLTEuOC0xLjgtMi45LTIuM3EtMS44LS45LTMuOS0uOWMtMS40IDAtMi44LjMtMy45LjktMS4yLjYtMi4xIDEuMy0zIDIuMy0uOCAxLTEuNCAyLjEtMS44IDMuNHMtLjYgMi43LS42IDQuMW0zOS4xIDExLjJ2LTIyLjNoOWMuOSAwIDEuOC4xIDIuNy40czEuNy43IDIuMyAxLjJjLjcuNSAxLjIgMS4yIDEuNiAxLjkuNC44LjYgMS42LjYgMi41cy0uMiAyLjEtLjYgMi45LS45IDEuNS0xLjYgMi0xLjUuOS0yLjMgMS4yLTEuOC40LTIuNy40aC02LjZ2OS43aC0yLjRabTktMTAuMWMxLjYgMCAyLjgtLjUgMy43LTEuNnMxLjMtMi42IDEuMy00LjUtLjEtMS41LS4zLTIuMi0uNS0xLjMtMS0xLjhxLS42LS43NS0xLjUtMS4yYy0uNi0uMy0xLjMtLjUtMi4xLS41aC02LjZ2MTEuOWg2LjZabTI1IDEwLjF2LTIybDEyLjMgMTUuMSAxMC43LTE1LjQtLjIgMjIuM2gtMi40di0xNy43Yy4xIDAtOS4zIDEzLjctOS4zIDEzLjdsLTEwLjUtMTMuM3YxNy4zem01Ni4yLTEwLjloLTExLjd2MTAuMmgxMy4zdi42aC0xNS43di0yMi4zaDE1di42aC0xMi43djEwLjJoMTEuN3YuNlptMjAuMiAxMC45di0yMi4zbDE3LjEgMTguM3YtMTguM2guNnYyMi4zbC0xNy4xLTE4LjN2MTguM3ptNTMuNC0yMS43aC03Ljh2MjEuN2gtMi40di0yMS43aC03Ljh2LS42aDE4em03My4xIDEwLjRxMCAzLS45IDUuMXQtMi40IDMuNnEtMS41IDEuMzUtMy42IDIuMWMtMS40LjUtMi45LjctNC41LjdzLTMuMi0uMy00LjYtLjgtMi42LTEuMy0zLjctMi4zcS0xLjUtMS41LTIuNC0zLjZjLS42LTEuNC0uOS0zLS45LTQuN3MuMy0zLjMuOC00LjdxLjktMi4xIDIuNC0zLjZjMS0xIDIuMi0xLjggMy42LTIuM3MzLS44IDQuNy0uOCAzLjYuMyA1IDFjMS40LjYgMi41IDEuNSAzLjQgMi42bC0uNS4zYy0uMy0uNS0uOC0xLTEuMy0xLjRzLTEuMi0uNy0xLjgtMWMtLjctLjMtMS40LS41LTIuMi0uNnMtMS42LS4yLTIuNS0uMnEtMi4yNSAwLTMuOS45Yy0xLjEuNi0yLjEgMS4zLTIuOSAyLjNzLTEuNCAyLjEtMS44IDMuNC0uNiAyLjctLjYgNC4xLjIgMi45LjYgNC4yIDEgMi41IDEuOCAzLjRjLjggMSAxLjggMS44IDIuOSAyLjMgMS4xLjYgMi40LjkgMy44LjlzMi41LS4yIDMuNi0uN2MxLjEtLjQgMi4xLTEuMSAyLjktMnMxLjQtMS45IDEuOS0zLjJjLjQtMS4zLjctMi43LjctNC40aC04LjZ2LS42em0xOC4yIDExLjN2LTIyLjNoOS40Yy45IDAgMS44LjEgMi43LjRzMS42LjcgMi4yIDEuMiAxLjEgMS4yIDEuNSAxLjljLjQuOC42IDEuNi42IDIuNXMtLjIgMS45LS41IDIuNy0uNyAxLjQtMS4zIDEuOWMtLjUuNS0xLjIuOS0xLjkgMS4ycy0xLjUuNS0yLjMuNmw3IDkuOGgtMi45bC03LTkuN2gtNS4xdjkuN2gtMi40Wm05LjQtMTAuMWMxLjYgMCAyLjgtLjUgMy41LTEuNnMxLjEtMi42IDEuMS00LjUgMC0xLjUtLjMtMi4yYy0uMi0uNy0uNS0xLjMtLjgtMS44cS0uNi0uNzUtMS41LTEuMmMtLjYtLjMtMS4zLS41LTIuMS0uNWgtN3YxMS45aDdabTI1LTEuMWMwLTEuNy4zLTMuMy45LTQuN3EuOS0yLjEgMi40LTMuNmMxLTEgMi4zLTEuOCAzLjctMi4zczMtLjggNC43LS44IDMuMy4zIDQuNy44IDIuNyAxLjMgMy43IDIuMyAxLjkgMi4yIDIuNCAzLjZjLjYgMS40LjkgMyAuOSA0LjdzLS4zIDMuMy0uOSA0LjdxLS45IDIuMS0yLjQgMy42Yy0xIDEtMi4zIDEuOC0zLjcgMi4zcy0zIC44LTQuNy44LTMuMy0uMy00LjctLjgtMi43LTEuMy0zLjctMi4zcS0xLjUtMS41LTIuNC0zLjZjLS42LTEuNC0uOS0zLS45LTQuN20yLjQgMHEwIDIuMjUuNiA0LjJjLjQgMS4zIDEgMi41IDEuOCAzLjQuOCAxIDEuOCAxLjggMyAyLjNxMS44LjkgMy45Ljl0My45LS45YzEuMi0uNiAyLjEtMS4zIDIuOS0yLjNzMS40LTIuMSAxLjktMy40cS42LTEuOTUuNi00LjJjMC0xLjUtLjItMi44LS42LTQuMXMtMS0yLjQtMS45LTMuNGMtLjgtMS0xLjgtMS44LTIuOS0yLjNxLTEuOC0uOS0zLjktLjljLTEuNCAwLTIuOC4zLTMuOS45LTEuMi42LTIuMSAxLjMtMyAyLjMtLjggMS0xLjQgMi4xLTEuOCAzLjRzLS42IDIuNy0uNiA0LjFtNTYuMyA0LjFjMCAyLjUtLjcgNC4zLTIuMiA1LjVzLTMuNSAxLjgtNi4xIDEuOC0yLjUtLjEtMy43LS40Yy0xLjEtLjMtMi4xLS43LTMtMS4zcy0xLjUtMS40LTItMi4zLS43LTItLjctMy4ydi0xNS4zaDIuNHYxNS4zYzAgMSAuMSAxLjkuNCAyLjdzLjcgMS41IDEuMyAyLjEgMS4zIDEgMi4yIDEuNCAxLjkuNSAzLjEuNWMyLjQgMCA0LjMtLjYgNS42LTEuN3MyLTIuOCAyLTQuOXYtMTUuM2guOHYxNS4zWm0xOC42IDcuMXYtMjIuM2g5Yy45IDAgMS44LjEgMi43LjRzMS43LjcgMi4zIDEuMmMuNy41IDEuMiAxLjIgMS42IDEuOS40LjguNiAxLjYuNiAyLjVzLS4yIDIuMS0uNiAyLjktLjkgMS41LTEuNiAyLTEuNS45LTIuMyAxLjItMS44LjQtMi43LjRoLTYuNnY5LjdoLTIuNFptOS0xMC4xYzEuNiAwIDIuOC0uNSAzLjctMS42czEuMy0yLjYgMS4zLTQuNS0uMS0xLjUtLjMtMi4yLS41LTEuMy0xLTEuOHEtLjYtLjc1LTEuNS0xLjJjLS42LS4zLTEuMy0uNS0yLjEtLjVoLTYuNnYxMS45aDYuNloiLz48L3N2Zz4=" alt="Emilia Development Group">
+ <p class="g-lb"><b>(</b>Prezentare privată<b>)</b></p>
+ <h2>Introduceți codul PIN</h2>
+ <form id="gf" autocomplete="off"><input id="gpin" name="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="Cod PIN" autofocus><button type="submit">Intră</button></form>
+ <p id="gerr" role="alert"></p>
+</div></div>
+
+<header class="pill">
+ <a href="#sus" aria-label="Emilia Development Group"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MjkuMzkiIGhlaWdodD0iMTUyLjYxIiB2aWV3Qm94PSIwIDAgODI5LjM5IDE1Mi42MSI+PHBhdGggZmlsbD0iI2VhZGZkNSIgZD0iTTE3MC41OTQgODUuMTI0Yy0zLjIzLTEzLjktOC43MDktMjUuOTUzLTIwLjgyLTMzLjUwOC0xMy44NDEtOC41MzUtMjEuMjgtMTEuMzYtNDUuNzkxLTExLjM2SDg4LjA2NXMxMS41OTIgMS4zODMgMTQuMDcyIDEuODQ1YzE2LjY2NyAyLjk5OSAyNy43OTggMS42NzIgMzkuNzk0IDE0LjMwMiAxOS42NjYgMjAuNzA0IDIwLjc2MiA2Mi42MzIuMjg4IDgzLjIyLTEwLjg0MiAxMC45NTktMjIuNDkyIDEwLjM4Mi0zNi42OCAxMC4zODIgMC0xLjc4OC0uMDU3LTMuNTc2LS4xMTUtNS4zNjRWMTI0LjYzYy4wNTgtOS42ODkuMjMxLTE5LjQzNSAwLTI5LjAwOXYtOC4zMDVjLjExNi0zLjE3Mi4yMzEtNi40MDEuMTczLTkuNTczLjU3Ny02LjA1Ni0uMDU3LTI5LjI5OC00MC4zNy0zNy41NDUtLjI4OC0xMi4xMSAwLTI1LjI2IDAtMzcuMzcxIDAgLjA1OCA1OC45NC0xLjUgNjMuMDM2LTIuODI2SDIzLjAxMmMxOC4xNjYgMy40NiAxOC4zOTYgNi4xMTMgMTguMzk2IDIzLjkzNFY0MC4xNEMyNy43OTggNDMuMjU0IDExLjMwNCA1Mi43Ny4xNzMgNzUuMjA0YzAgMCAuMTczLS4yMy40NjEtLjY5Mi0uMjMuNDA0LS40NjEuODA4LS42MzQgMS4yMTFoLjE3M2E4NSA4NSAwIDAgMSA0LjY3MS02LjU3NCAxMjAgMTIwIDAgMCAxIDcuNDQtOC4xOWM4LjQyLTguMDc0IDE4LjU3LTE0LjUzMyAyOS4xODItMTcuMDEzIDAgNy43ODYtLjExNSA4Ni45Ny0uMTE1IDk1LjUwNXMtOS4yMjggMTEuNTkyLTE4LjA1MiAxMy4xNWg4MS4xNDVjOS41MTYgMCAxOC4yODIuMjg3IDI3LjY4My0xLjkwNCAxMy4yNjQtMi45NDEgMjQuNzk5LTExLjEzIDMyLjAwOC0yMi43MjMgNy43MjgtMTIuNDU3IDkuNjg4LTI4LjgzNiA2LjM0My00My4wMjNaTTY1LjM0MiAxNDkuOTQ3VjQ0LjAwNGMxNC40NzYgMi45OTkgMjMuOTM0IDEwLjk1NyAyNi41MyAyNC4wNDkuNDYgMi44MjYuNzUgNi41MTcuNzUgMTEuMjQ2djcwLjU5aC0yNy4yOFptMjExLjc0Ny02MC45NDFjMi41IDAgNC43LS41IDYuNS0xLjhzMy40LTIuNyA0LjktNC41IDIuNS0zLjYgMy40LTUuNiAxLjYtMy44IDIuMi01LjJoMS4xbC00IDE4LjdoLTU4di0uOWMuOSAwIDEuNi0uNCAyLjItLjkuNS0uNSAxLjEtMS4xIDEuNi0yIC40LS45LjctMi4yLjctNHYtNjIuM2MwLTEuOC0uMi0zLjEtLjctNHMtLjktMS42LTEuNi0yYy0uNS0uNS0xLjQtLjctMi4yLS45di0uOWg1NS45bDQgMTguN2gtMS4xYy0uNS0xLjQtMS4zLTMuMi0yLjItNS4ycy0yLTQtMy40LTUuOC0zLjEtMy4yLTQuOS00LjUtNC4xLTEuOC02LjctMS44aC0yNXYzNS4xaDE3LjhjMi41IDAgNC45LS43IDYuNy0yLjMgMi0xLjYgMi45LTMuOCAzLjEtNi41aC45djE5LjFoLS45YzAtMS4zLS40LTIuNS0uOS0zLjZzLTEuMy0yLjItMi4yLTIuOWMtLjktLjktMi0xLjQtMy4xLTItMS4xLS41LTIuMy0uNy0zLjYtLjdoLTE3Ljh2MzguNmgyNy40Wm04Ny4zIDEuNWgtMTAuNnYtLjljLjkgMCAxLjYtLjQgMi4yLS45LjUtLjUgMS4xLTEuMSAxLjYtMiAuNC0uOS43LTIuMi43LTR2LTYyLjNjMC0xLjgtLjItMy4xLS43LTRzLS45LTEuNi0xLjYtMmMtLjUtLjUtMS40LS43LTIuMi0uOXYtLjloMTguNGwyMS4xIDU2LjkgMTkuMS01Ni45aDE2LjZ2LjljLS43IDAtMS40LjQtMi4yLjktLjUuNC0xLjEgMS4xLTEuNiAyLS40LjktLjcgMi4yLS43IDR2NjIuM2MwIDEuOC4yIDMuMS43IDRzLjkgMS42IDEuNiAyYy41LjUgMS4zLjcgMi4yLjl2LjloLTIxLjF2LS45Yy45IDAgMS42LS40IDIuMi0uOS41LS41IDEuMS0xLjEgMS42LTIgLjQtLjkuNy0yLjIuNy00di02NC43bC0yMy44IDcyLjRoLTIuMmwtMjYuNy03Mi4ydjY0LjVjMCAxLjguMiAzLjEuNyA0cy45IDEuNiAxLjQgMmMuNS41IDEuNC43IDIuMi45di45em0xMjMuMi03Ny43aDIxLjF2LjljLS43IDAtMS40LjQtMi4yLjktLjUuNC0xLjEgMS4xLTEuNiAyLS40LjktLjcgMi4yLS43IDR2NjIuM2MwIDEuOC4yIDMuMS43IDRzLjkgMS42IDEuNiAyYy41LjUgMS4zLjcgMi4yLjl2LjloLTIxLjF2LS45Yy45IDAgMS42LS40IDIuMi0uOS41LS41IDEuMS0xLjEgMS42LTIgLjQtLjkuNy0yLjIuNy00di02Mi4zYzAtMS44LS4yLTMuMS0uNy00cy0uOS0xLjYtMS42LTJjLS41LS41LTEuNC0uNy0yLjItLjl6bTE5Mi40IDBoMjEuMXYuOWMtLjcgMC0xLjQuNC0yLjIuOS0uNS40LTEuMSAxLjEtMS42IDItLjQuOS0uNyAyLjItLjcgNHY2Mi4zYzAgMS44LjIgMy4xLjcgNHMuOSAxLjYgMS42IDJjLjUuNSAxLjMuNyAyLjIuOXYuOWgtMjEuMXYtLjljLjkgMCAxLjYtLjQgMi4yLS45czEuMS0xLjEgMS42LTJjLjQtLjkuNy0yLjIuNy00di02Mi4zYzAtMS44LS4yLTMuMS0uNy00cy0uOS0xLjYtMS42LTJjLS41LS41LTEuNC0uNy0yLjItLjl6bTE0Ny43IDc2LjJjLS41LS40LTEuMS0xLjEtMS44LTJzLTEuNC0yLjMtMi00LjFjLS43LTItMS42LTQuNS0yLjktNy40LTEuMS0zLjEtMi41LTYuMy00LTkuOS0xLjQtMy42LTMuMS03LjQtNC41LTExLjUtMS42LTQtMy4yLTcuOS00LjctMTEuNy0zLjYtOS4yLTcuNi0xOC45LTExLjctMjkuMmgtNC4xYy0yLjIgNS42LTQuMyAxMS40LTYuNSAxNy4xLS45IDIuMy0yIDUtMy4xIDcuN3MtMi4yIDUuNi0zLjIgOC41Yy0xLjEgMi45LTIuMiA1LjYtMy4yIDguNS0xLjEgMi45LTIuMiA1LjYtMy4xIDguMSAwIDAtMi4yIDUuNi0zLjEgNy45cy0xLjggNC41LTIuMyA2LjNjLS45IDIuMi0xLjYgNC4xLTIuMiA1LjktLjcgMS44LTEuNCAzLjItMiA0LjEtLjcuOS0xLjMgMS42LTEuOCAyLS43LjQtMS4zLjUtMS44LjV2LjloOS41di0uOWMtLjkgMC0xLjYtLjUtMi4yLTEuMS0uNS0uNS0uNy0xLjEtMS4xLTItLjItLjkgMC0yIC41LTMuNi40LS45IDEuMy0zLjEgMi41LTYuNyAxLjMtMy40IDIuOS03LjYgNC43LTEyLjNsLjUtMS40YzEuNi00LjEgMy4yLTguMyA0LjktMTIuNiAxLjYtNC4zIDMuMS04LjMgNC41LTExLjcgMS42LTQuMSAzLjItOC4xIDQuNy0xMS45IDEuNiAzLjggMy4yIDcuNyA0LjkgMTEuOSAxLjQgMy42IDMuMSA3LjQgNC43IDExLjcgMS44IDQuMyAzLjQgOC41IDUgMTIuOGwuNSAxLjRjMS44IDQuNSAzLjQgOC41IDQuNyAxMS45IDEuMyAzLjYgMi4zIDYuMSAyLjkgNy42LjUgMS4zLjUgMi4zLjQgMy4ycy0uNSAxLjQtMS4xIDEuOGMtLjUuNC0xLjQuNy0yLjIuOXYuOWgyMS40di0uOWMtLjUgMC0xLjMtLjItMS44LS41bC0uMi0uNFptLTIyNC40IDMuOGMyLjUgMCA0LjctLjUgNi43LTEuOHMzLjYtMi43IDQuOS00LjVjMS40LTEuOCAyLjUtMy42IDMuNC01LjZzMS42LTMuOCAyLjItNS4yaC45bC0zLjggMTguN2gtNTAuMXYtLjljLjkgMCAxLjYtLjQgMi4yLS45LjUtLjUgMS4xLTEuMSAxLjYtMiAuNC0uOS43LTIuMi43LTR2LTYyLjNjMC0xLjgtLjItMy4xLS43LTRzLS45LTEuNi0xLjYtMmMtLjUtLjUtMS40LS43LTIuMi0uOXYtLjloMjEuMXYuOWMtLjcgMC0xLjQuNC0yLjIuOS0uNS40LTEuMSAxLjEtMS42IDItLjQuOS0uNyAyLjItLjcgNHY2OC41aDE5LjNabS0zNzAuMiA0N3YtMjIuM2g3LjhjMS43IDAgMy4zLjMgNC43LjhzMi42IDEuMyAzLjYgMi4yYzEgMSAxLjggMi4xIDIuMyAzLjVzLjggMi45LjggNC42LS4zIDMuMy0uOCA0LjctMS4zIDIuNi0yLjMgMy41Yy0xIDEtMi4yIDEuNy0zLjYgMi4ycy0zIC44LTQuNy44em0yLjQtLjdoNS40YzEuNSAwIDIuOC0uMyAzLjktLjggMS4xLS42IDIuMS0xLjMgMi44LTIuMnMxLjMtMi4xIDEuNy0zLjNjLjQtMS4zLjYtMi43LjYtNC4xcy0uMi0yLjgtLjYtNC4xLTEtMi40LTEuNy0zLjMtMS43LTEuNy0yLjgtMi4yYy0xLjEtLjYtMi40LS44LTMuOS0uOGgtNS40djIxWm00OC45LTEwLjJoLTExLjd2MTAuMmgxMy4zdi42aC0xNS43di0yMi4zaDE1di42aC0xMi43djEwLjJoMTEuN3YuNlptMTguNS0xMS40aDIuN2w4LjEgMTguNiA4LjMtMTguNmguNmwtOS45IDIyLjMtOS45LTIyLjNabTUxLjEgMTEuNGgtMTEuN3YxMC4yaDEzLjN2LjZoLTE1Ljd2LTIyLjNoMTV2LjZoLTEyLjd2MTAuMmgxMS43di42Wm0yMC4zLTExLjRoMi40djIxLjdoMTIuM3YuNmgtMTQuN3ptMzAuNiAxMS4xYzAtMS43LjMtMy4zLjktNC43cS45LTIuMSAyLjQtMy42YzEtMSAyLjMtMS44IDMuNy0yLjNzMy0uOCA0LjctLjggMy4zLjMgNC43LjggMi43IDEuMyAzLjcgMi4zIDEuOSAyLjIgMi40IDMuNmMuNiAxLjQuOSAzIC45IDQuN3MtLjMgMy4zLS45IDQuN3EtLjkgMi4xLTIuNCAzLjZjLTEgMS0yLjMgMS44LTMuNyAyLjNzLTMgLjgtNC43LjgtMy4zLS4zLTQuNy0uOC0yLjctMS4zLTMuNy0yLjNxLTEuNS0xLjUtMi40LTMuNmMtLjYtMS40LS45LTMtLjktNC43bTIuMyAwcTAgMi4yNS42IDQuMmMuNCAxLjMgMSAyLjUgMS44IDMuNC44IDEgMS44IDEuOCAzIDIuM3ExLjguOSAzLjkuOXQzLjktLjljMS4yLS42IDIuMS0xLjMgMi45LTIuM3MxLjQtMi4xIDEuOS0zLjRxLjYtMS45NS42LTQuMmMwLTEuNS0uMi0yLjgtLjYtNC4xcy0xLTIuNC0xLjktMy40Yy0uOC0xLTEuOC0xLjgtMi45LTIuM3EtMS44LS45LTMuOS0uOWMtMS40IDAtMi44LjMtMy45LjktMS4yLjYtMi4xIDEuMy0zIDIuMy0uOCAxLTEuNCAyLjEtMS44IDMuNHMtLjYgMi43LS42IDQuMW0zOS4xIDExLjJ2LTIyLjNoOWMuOSAwIDEuOC4xIDIuNy40czEuNy43IDIuMyAxLjJjLjcuNSAxLjIgMS4yIDEuNiAxLjkuNC44LjYgMS42LjYgMi41cy0uMiAyLjEtLjYgMi45LS45IDEuNS0xLjYgMi0xLjUuOS0yLjMgMS4yLTEuOC40LTIuNy40aC02LjZ2OS43aC0yLjRabTktMTAuMWMxLjYgMCAyLjgtLjUgMy43LTEuNnMxLjMtMi42IDEuMy00LjUtLjEtMS41LS4zLTIuMi0uNS0xLjMtMS0xLjhxLS42LS43NS0xLjUtMS4yYy0uNi0uMy0xLjMtLjUtMi4xLS41aC02LjZ2MTEuOWg2LjZabTI1IDEwLjF2LTIybDEyLjMgMTUuMSAxMC43LTE1LjQtLjIgMjIuM2gtMi40di0xNy43Yy4xIDAtOS4zIDEzLjctOS4zIDEzLjdsLTEwLjUtMTMuM3YxNy4zem01Ni4yLTEwLjloLTExLjd2MTAuMmgxMy4zdi42aC0xNS43di0yMi4zaDE1di42aC0xMi43djEwLjJoMTEuN3YuNlptMjAuMiAxMC45di0yMi4zbDE3LjEgMTguM3YtMTguM2guNnYyMi4zbC0xNy4xLTE4LjN2MTguM3ptNTMuNC0yMS43aC03Ljh2MjEuN2gtMi40di0yMS43aC03Ljh2LS42aDE4em03My4xIDEwLjRxMCAzLS45IDUuMXQtMi40IDMuNnEtMS41IDEuMzUtMy42IDIuMWMtMS40LjUtMi45LjctNC41LjdzLTMuMi0uMy00LjYtLjgtMi42LTEuMy0zLjctMi4zcS0xLjUtMS41LTIuNC0zLjZjLS42LTEuNC0uOS0zLS45LTQuN3MuMy0zLjMuOC00LjdxLjktMi4xIDIuNC0zLjZjMS0xIDIuMi0xLjggMy42LTIuM3MzLS44IDQuNy0uOCAzLjYuMyA1IDFjMS40LjYgMi41IDEuNSAzLjQgMi42bC0uNS4zYy0uMy0uNS0uOC0xLTEuMy0xLjRzLTEuMi0uNy0xLjgtMWMtLjctLjMtMS40LS41LTIuMi0uNnMtMS42LS4yLTIuNS0uMnEtMi4yNSAwLTMuOS45Yy0xLjEuNi0yLjEgMS4zLTIuOSAyLjNzLTEuNCAyLjEtMS44IDMuNC0uNiAyLjctLjYgNC4xLjIgMi45LjYgNC4yIDEgMi41IDEuOCAzLjRjLjggMSAxLjggMS44IDIuOSAyLjMgMS4xLjYgMi40LjkgMy44LjlzMi41LS4yIDMuNi0uN2MxLjEtLjQgMi4xLTEuMSAyLjktMnMxLjQtMS45IDEuOS0zLjJjLjQtMS4zLjctMi43LjctNC40aC04LjZ2LS42em0xOC4yIDExLjN2LTIyLjNoOS40Yy45IDAgMS44LjEgMi43LjRzMS42LjcgMi4yIDEuMiAxLjEgMS4yIDEuNSAxLjljLjQuOC42IDEuNi42IDIuNXMtLjIgMS45LS41IDIuNy0uNyAxLjQtMS4zIDEuOWMtLjUuNS0xLjIuOS0xLjkgMS4ycy0xLjUuNS0yLjMuNmw3IDkuOGgtMi45bC03LTkuN2gtNS4xdjkuN2gtMi40Wm05LjQtMTAuMWMxLjYgMCAyLjgtLjUgMy41LTEuNnMxLjEtMi42IDEuMS00LjUgMC0xLjUtLjMtMi4yYy0uMi0uNy0uNS0xLjMtLjgtMS44cS0uNi0uNzUtMS41LTEuMmMtLjYtLjMtMS4zLS41LTIuMS0uNWgtN3YxMS45aDdabTI1LTEuMWMwLTEuNy4zLTMuMy45LTQuN3EuOS0yLjEgMi40LTMuNmMxLTEgMi4zLTEuOCAzLjctMi4zczMtLjggNC43LS44IDMuMy4zIDQuNy44IDIuNyAxLjMgMy43IDIuMyAxLjkgMi4yIDIuNCAzLjZjLjYgMS40LjkgMyAuOSA0LjdzLS4zIDMuMy0uOSA0LjdxLS45IDIuMS0yLjQgMy42Yy0xIDEtMi4zIDEuOC0zLjcgMi4zcy0zIC44LTQuNy44LTMuMy0uMy00LjctLjgtMi43LTEuMy0zLjctMi4zcS0xLjUtMS41LTIuNC0zLjZjLS42LTEuNC0uOS0zLS45LTQuN20yLjQgMHEwIDIuMjUuNiA0LjJjLjQgMS4zIDEgMi41IDEuOCAzLjQuOCAxIDEuOCAxLjggMyAyLjNxMS44LjkgMy45Ljl0My45LS45YzEuMi0uNiAyLjEtMS4zIDIuOS0yLjNzMS40LTIuMSAxLjktMy40cS42LTEuOTUuNi00LjJjMC0xLjUtLjItMi44LS42LTQuMXMtMS0yLjQtMS45LTMuNGMtLjgtMS0xLjgtMS44LTIuOS0yLjNxLTEuOC0uOS0zLjktLjljLTEuNCAwLTIuOC4zLTMuOS45LTEuMi42LTIuMSAxLjMtMyAyLjMtLjggMS0xLjQgMi4xLTEuOCAzLjRzLS42IDIuNy0uNiA0LjFtNTYuMyA0LjFjMCAyLjUtLjcgNC4zLTIuMiA1LjVzLTMuNSAxLjgtNi4xIDEuOC0yLjUtLjEtMy43LS40Yy0xLjEtLjMtMi4xLS43LTMtMS4zcy0xLjUtMS40LTItMi4zLS43LTItLjctMy4ydi0xNS4zaDIuNHYxNS4zYzAgMSAuMSAxLjkuNCAyLjdzLjcgMS41IDEuMyAyLjEgMS4zIDEgMi4yIDEuNCAxLjkuNSAzLjEuNWMyLjQgMCA0LjMtLjYgNS42LTEuN3MyLTIuOCAyLTQuOXYtMTUuM2guOHYxNS4zWm0xOC42IDcuMXYtMjIuM2g5Yy45IDAgMS44LjEgMi43LjRzMS43LjcgMi4zIDEuMmMuNy41IDEuMiAxLjIgMS42IDEuOS40LjguNiAxLjYuNiAyLjVzLS4yIDIuMS0uNiAyLjktLjkgMS41LTEuNiAyLTEuNS45LTIuMyAxLjItMS44LjQtMi43LjRoLTYuNnY5LjdoLTIuNFptOS0xMC4xYzEuNiAwIDIuOC0uNSAzLjctMS42czEuMy0yLjYgMS4zLTQuNS0uMS0xLjUtLjMtMi4yLS41LTEuMy0xLTEuOHEtLjYtLjc1LTEuNS0xLjJjLS42LS4zLTEuMy0uNS0yLjEtLjVoLTYuNnYxMS45aDYuNloiLz48L3N2Zz4=" alt=""></a>
+ <div class="pr"><a class="go" href="#contact"><i></i>Contact</a><button class="mn" id="mn" type="button" aria-expanded="false" aria-controls="menu">Meniu <span>+</span></button></div>
+</header>
+
+<div class="menu" id="menu" aria-hidden="true">
+ <ol>
+  <li style="--i:0"><a href="#sus"><small>01</small><span>Acasă</span></a></li>
+  <li style="--i:1"><a href="#despre"><small>02</small><span>Despre noi</span></a></li>
+  <li style="--i:2"><a href="#stack"><small>03</small><span>Servicii</span></a></li>
+  <li style="--i:3"><a href="#echipa"><small>04</small><span>Echipa</span></a></li>
+  <li style="--i:4"><a href="#proiect"><small>05</small><span>Proiecte</span></a></li>
+  <li style="--i:5"><a href="#contact"><small>06</small><span>Contact</span></a></li>
+ </ol>
+ <div class="info">
+  <span class="lb"><b>(</b>Emilia Development Group<b>)</b></span>
+  <p>Dezvoltare rezidențială, cu accent pe București. Construim cu viziune. Creăm valoare în timp.</p>
+  <a class="em" href="mailto:contact@emiliadevelopmentgroup.ro">contact@emiliadevelopmentgroup.ro</a>
+  <span class="lb">București, Sector 3</span>
+ </div>
+</div>
+<div class="bar" id="bar"></div>
+<button class="mt" id="mt" type="button">Activează animațiile</button>
+<nav class="side" id="side" aria-hidden="true"><a href="#c0">00</a><a href="#stack">01</a><a href="#stack">02</a><a href="#stack">03</a><a href="#stack">04</a><a href="#stack">05</a><a href="#echipa">06</a><a href="#proiect">07</a></nav>
+
+<main class="story" id="sus">
+ <div class="stage">
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <svg id="sv" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Desen arhitectural al unei case care se construiește pe măsură ce derulezi pagina">
+   <defs>
+    <linearGradient id="gl2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe3bd"/><stop offset="1" stop-color="#f0c291"/></linearGradient>
+    <linearGradient id="ray" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0c291" stop-opacity=".5"/><stop offset="1" stop-color="#f0c291" stop-opacity="0"/></linearGradient>
+    <radialGradient id="sunG"><stop offset="0" stop-color="#fff0d8" stop-opacity=".95"/><stop offset="1" stop-color="#f0c291" stop-opacity="0"/></radialGradient>
+   </defs>
+   <g id="sky"><circle id="sun" cx="1230" cy="260" r="170" fill="url(#sunG)" opacity="0"/><g id="clouds"></g><g id="stars"></g><circle id="moon" cx="1330" cy="190" r="34" fill="#eadfd5" opacity="0"/></g>
+   <g id="hills"></g><rect id="ground" x="-300" y="700" width="2200" height="400" fill="#120a06"/>
+   <g id="circles">
+    <circle class="s cir d" data-a="0" data-b=".8" pathLength="1" cx="440" cy="420" r="360"/>
+    <circle class="s cir d" data-a=".1" data-b=".9" pathLength="1" cx="1180" cy="560" r="470"/>
+    <circle class="s cir d" data-a=".2" data-b="1" pathLength="1" cx="820" cy="800" r="560"/>
+    <line class="s cir d" data-a=".3" data-b="1" pathLength="1" x1="-100" y1="330" x2="1700" y2="330"/>
+   </g>
+   <line class="s d" data-a="0" data-b=".7" pathLength="1" x1="-300" y1="700" x2="1900" y2="700"/>
+   <g id="scene">
+    <rect class="s d" data-a="1" data-b="1.8" pathLength="1" x="748" y="702" width="742" height="70" opacity=".5"/>
+    <g data-a="1.4" data-b="2" data-t="r"><line class="s" x1="748" y1="702" x2="748" y2="660"/><path class="s" d="M748 660 l24 8 l-24 8"/><line class="s" x1="1490" y1="702" x2="1490" y2="660"/><path class="s" d="M1490 660 l-24 8 l24 8"/></g>
+    <g data-a="1.5" data-b="2.3" data-t="g"><circle class="s" cx="690" cy="620" r="66"/><line class="s" x1="690" y1="686" x2="690" y2="700"/></g>
+    <g data-a="1.7" data-b="2.5" data-t="g"><circle class="s" cx="1530" cy="600" r="86"/><line class="s" x1="1530" y1="686" x2="1530" y2="700"/></g>
+    <rect class="s d" data-a="2" data-b="2.5" pathLength="1" x="780" y="700" width="660" height="12"/>
+    <rect class="ink f0" data-a="2.3" data-b="2.7" data-t="f" x="780" y="700" width="660" height="12"/>
+    <rect class="vol f0" data-a="2.7" data-b="3.1" data-t="f" x="800" y="540" width="360" height="160"/>
+    <rect class="s d" data-a="2.1" data-b="2.9" pathLength="1" x="800" y="540" width="360" height="160"/>
+    <rect class="vol f0" data-a="3" data-b="3.4" data-t="f" x="880" y="430" width="380" height="110"/>
+    <rect class="s d" data-a="2.45" data-b="3.1" pathLength="1" x="880" y="430" width="380" height="110"/>
+    <rect class="vol f0" data-a="3" data-b="3.4" data-t="f" x="1160" y="566" width="260" height="134"/>
+    <rect class="s d" data-a="2.6" data-b="3.3" pathLength="1" x="1160" y="566" width="260" height="134"/>
+    <rect class="ink f0" data-a="2.9" data-b="3.3" data-t="f" x="788" y="528" width="384" height="11"/>
+    <rect class="ink f0" data-a="3" data-b="3.4" data-t="f" x="868" y="418" width="404" height="11"/>
+    <rect class="ink f0" data-a="3.1" data-b="3.5" data-t="f" x="1148" y="554" width="284" height="11"/>
+    <rect class="f0" fill="url(#gl2)" data-a="3.3" data-b="3.9" data-t="f" data-max=".92" x="830" y="570" width="200" height="110"/>
+    <rect class="f0" fill="url(#gl2)" data-a="3.4" data-b="4" data-t="f" data-max=".92" x="910" y="452" width="260" height="62"/>
+    <rect class="f0" fill="url(#gl2)" data-a="3.5" data-b="4.1" data-t="f" data-max=".92" x="1195" y="592" width="170" height="88"/>
+    <g><line class="s d" data-a="3.2" data-b="3.6" pathLength="1" x1="897" y1="570" x2="897" y2="680"/><line class="s d" data-a="3.25" data-b="3.65" pathLength="1" x1="963" y1="570" x2="963" y2="680"/><line class="s d" data-a="3.3" data-b="3.7" pathLength="1" x1="975" y1="452" x2="975" y2="514"/><line class="s d" data-a="3.35" data-b="3.75" pathLength="1" x1="1040" y1="452" x2="1040" y2="514"/><line class="s d" data-a="3.4" data-b="3.8" pathLength="1" x1="1105" y1="452" x2="1105" y2="514"/><line class="s d" data-a="3.45" data-b="3.85" pathLength="1" x1="1280" y1="592" x2="1280" y2="680"/></g>
+    <rect class="s d" data-a="3.4" data-b="3.9" pathLength="1" x="1070" y="590" width="62" height="110"/>
+    <g data-a="3.6" data-b="4.2" data-t="g"><circle class="s" cx="782" cy="682" r="30"/></g>
+    <g data-a="3.7" data-b="4.3" data-t="g"><circle class="s" cx="1172" cy="684" r="24"/></g>
+    <g data-a="3.8" data-b="4.4" data-t="g"><circle class="s" cx="1448" cy="680" r="34"/></g>
+    <polygon fill="url(#ray)" class="f0" data-a="4.2" data-b="4.8" data-t="f" points="830,680 1030,680 1100,790 760,790"/>
+    <polygon fill="url(#ray)" class="f0" data-a="4.3" data-b="4.9" data-t="f" points="1195,680 1365,680 1410,780 1150,780"/>
+    <path class="s d" data-a="4.1" data-b="4.7" pathLength="1" d="M1100 712 Q1070 800 960 910" opacity=".6"/>
+    <g fill="#f0c291" class="f0" data-a="4.4" data-b="4.9" data-t="f"><circle cx="1086" cy="740" r="4"/><circle cx="1064" cy="772" r="4"/><circle cx="1034" cy="808" r="4"/><circle cx="998" cy="846" r="4"/></g>
+
+    <!-- detalii: balcon cu balustradă -->
+    <rect class="ink f0" data-a="3.15" data-b="3.6" data-t="f" x="1250" y="538" width="104" height="9"/>
+    <path class="s d" data-a="3.25" data-b="3.85" pathLength="1" d="M1262 506 H1352 V538"/>
+    <g><line class="s d" data-a="3.35" data-b="3.8" pathLength="1" x1="1286" y1="506" x2="1286" y2="538"/><line class="s d" data-a="3.4" data-b="3.85" pathLength="1" x1="1318" y1="506" x2="1318" y2="538"/></g>
+    <!-- acoperiș verde -->
+    <path class="s d" data-a="3.7" data-b="4.4" pathLength="1" d="M872 417 q5 -13 11 -3 q5 -10 11 3 M894 417 q5 -13 11 -3 q5 -10 11 3 M916 417 q5 -13 11 -3 q5 -10 11 3 M938 417 q5 -13 11 -3 q5 -10 11 3 M960 417 q5 -13 11 -3 q5 -10 11 3 M982 417 q5 -13 11 -3 q5 -10 11 3 M1004 417 q5 -13 11 -3 q5 -10 11 3 M1026 417 q5 -13 11 -3 q5 -10 11 3 M1048 417 q5 -13 11 -3 q5 -10 11 3 M1070 417 q5 -13 11 -3 q5 -10 11 3 M1092 417 q5 -13 11 -3 q5 -10 11 3 M1114 417 q5 -13 11 -3 q5 -10 11 3 M1136 417 q5 -13 11 -3 q5 -10 11 3 M1158 417 q5 -13 11 -3 q5 -10 11 3 M1180 417 q5 -13 11 -3 q5 -10 11 3 M1202 417 q5 -13 11 -3 q5 -10 11 3 M1224 417 q5 -13 11 -3 q5 -10 11 3 M1246 417 q5 -13 11 -3 q5 -10 11 3" opacity=".8"/>
+    <!-- copertină și trepte la intrare -->
+    <rect class="ink f0" data-a="3.5" data-b="3.9" data-t="f" x="1052" y="578" width="98" height="6"/>
+    <path class="s d" data-a="3.6" data-b="4.1" pathLength="1" d="M1066 700 H1136 M1061 706 H1141 M1056 712 H1146" opacity=".8"/>
+    <!-- piscină -->
+    <polygon class="f0" fill="rgba(240,194,145,.10)" data-a="4" data-b="4.6" data-t="f" points="1170,726 1472,726 1500,768 1140,768"/>
+    <polygon class="s d" data-a="3.9" data-b="4.5" pathLength="1" points="1170,726 1472,726 1500,768 1140,768 1170,726" opacity=".85"/>
+    <g class="water f0" data-a="4.25" data-b="4.85" data-t="f"><line class="s" x1="1186" y1="736" x2="1456" y2="736"/><line class="s" x1="1170" y1="747" x2="1470" y2="747"/><line class="s" x1="1156" y1="758" x2="1486" y2="758"/></g>
+    <!-- stâlpi de lumină în grădină -->
+    <g data-a="3.9" data-b="4.5" data-t="r"><line class="s" x1="736" y1="700" x2="736" y2="646"/><path class="s" d="M728 646 h16"/><line class="s" x1="1548" y1="700" x2="1548" y2="640"/><path class="s" d="M1540 640 h16"/></g>
+    <g class="f0" data-a="4.3" data-b="4.9" data-t="f"><circle cx="736" cy="650" r="46" fill="url(#sunG)"/><circle cx="1548" cy="644" r="46" fill="url(#sunG)"/></g>
+   </g>
+   <g id="next" opacity="0">
+    <rect class="s d" data-a="6.9" data-b="7.6" pathLength="1" x="1010" y="540" width="330" height="160"/>
+    <rect class="s d" data-a="7.1" data-b="7.8" pathLength="1" x="1080" y="440" width="300" height="100"/>
+    <line class="s d" data-a="7.4" data-b="7.9" pathLength="1" x1="990" y1="528" x2="1360" y2="528"/>
+   </g>
+  </svg>
+  <div class="ghost" id="ghost" aria-hidden="true"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span></div>
+  <div class="mq" id="mq" aria-hidden="true"><span>Terenuri · Construcție · Lumină · Acasă · Valoare ·&nbsp;</span><span>Terenuri · Construcție · Lumină · Acasă · Valoare ·&nbsp;</span><span>Terenuri · Construcție · Lumină · Acasă · Valoare ·&nbsp;</span></div>
+ </div>
+
+ <div class="chs">
+  <section class="hero" id="c0"><div class="in" data-lp="0">
+   <div>
+    <h1 class="bigname" aria-label="Emilia">Emilia<i>.</i></h1>
+    <p class="dg">Development Group</p>
+    <p class="h1w" id="h1w">Construim locuri în care merită să trăiești.</p>
+   </div>
+   <div class="hbot">
+    <div><p><b style="color:#fff;font-weight:500">Dezvoltare rezidențială, cu accent pe București.</b> Cumpărăm terenuri, construim case și le oferim spre vânzare, gestionând tot parcursul, de la amplasament la locuința finalizată.</p>
+     <div class="btns"><a class="btn" href="#stack"><i></i>Descoperă parcursul</a><a class="btn gh" href="#contact">Contact</a></div></div>
+    <span class="lb">(Derulează)</span>
+   </div>
+  </div></section>
+
+ <section class="about" id="despre">
+   <span class="lb"><b>(</b>Despre noi<b>)</b></span>
+   <p class="abig" data-anim="scrub" data-scrub="vp">Emilia Development Group a luat naștere din dorința de a dezvolta proiecte imobiliare care îmbină viziunea antreprenorială, calitatea arhitecturală și atenția acordată valorii în timp.</p>
+   <div class="acols">
+    <div class="rv2"><span class="lb"><b>(</b>Ce facem<b>)</b></span><p>Dezvoltare rezidențială: cumpărăm terenuri, construim case și le oferim spre vânzare, gestionând tot parcursul, de la alegerea amplasamentului până la locuința finalizată.</p></div>
+    <div class="rv2"><span class="lb"><b>(</b>În perspectivă<b>)</b></span><p>Completăm portofoliul cu alte proprietăți imobiliare oferite spre vânzare, noi și existente.</p></div>
+    <div class="rv2"><span class="lb"><b>(</b>Cum gândim<b>)</b></span><p>Materiale alese, armonia proporțiilor, lumină naturală și grijă pentru detalii, pornind de la nevoile celor care vor numi locuința „acasă”.</p></div>
+   </div>
+  </section>
+
+  <div class="stack" id="stack">
+   <article class="card" style="--i:0" data-c="1"><div class="top"><span class="lb"><b>(</b>01 — Terenul<b>)</b></span><span class="lb">01 / 05</span></div><div><h3 data-anim="mask">Totul începe cu un loc.</h3><p class="rv" style="transition-delay:.15s">Alegem cu grijă amplasamentul, cu accent pe București. De aici pornește tot parcursul, de la teren până la locuința finalizată.</p><div class="chips rv" style="transition-delay:.3s"><span>Amplasament</span><span>București</span><span>Teren ales cu grijă</span></div></div><div class="ft"><span class="lb">Terenuri</span><span class="ar">↘</span></div><i class="pb"></i></article>
+   <article class="card" style="--i:1" data-c="2"><div class="top"><span class="lb"><b>(</b>02 — Construcția<b>)</b></span><span class="lb">02 / 05</span></div><div><h3 data-anim="chars">Proporții armonioase.</h3><p class="rv" style="transition-delay:.15s">Construim case atent proiectate, cu materiale alese și grijă pentru fiecare detaliu de execuție.</p><div class="chips rv" style="transition-delay:.3s"><span>Materiale alese</span><span>Proporții</span><span>Detalii de execuție</span></div></div><div class="ft"><span class="lb">Construcție</span><span class="ar">↘</span></div><i class="pb"></i></article>
+   <article class="card" style="--i:2" data-c="3"><div class="top"><span class="lb"><b>(</b>03 — Lumina<b>)</b></span><span class="lb">03 / 05</span></div><div><h3 data-anim="sweep">Lumină naturală, verde aproape.</h3><p class="rv" style="transition-delay:.15s">Spații concepute în jurul luminii și al legăturii dintre interior și zonele verzi.</p><div class="chips rv" style="transition-delay:.3s"><span>Lumină naturală</span><span>Zone verzi</span><span>Interior · exterior</span></div></div><div class="ft"><span class="lb">Design</span><span class="ar">↘</span></div><i class="pb"></i></article>
+   <article class="card" style="--i:3" data-c="4"><div class="top"><span class="lb"><b>(</b>04 — Acasă<b>)</b></span><span class="lb">04 / 05</span></div><div><h3 data-anim="words" data-acc="1">Gata să-i spui acasă.</h3><p class="rv" style="transition-delay:.15s">Oferim spre vânzare locuințele finalizate și gestionăm întregul parcurs, până la predare.</p><div class="chips rv" style="transition-delay:.3s"><span>Vânzare</span><span>Parcurs complet</span><span>Predare</span></div></div><div class="ft"><span class="lb">Vânzare</span><span class="ar">↘</span></div><i class="pb"></i></article>
+   <article class="card" style="--i:4" data-c="5"><div class="top"><span class="lb"><b>(</b>05 — Valoarea în timp<b>)</b></span><span class="lb">05 / 05</span></div><div><h3 data-anim="scrub">Construim cu viziune. Creăm valoare în timp.</h3><p class="rv" style="transition-delay:.15s">Locuințe plăcute, practice și durabile, pornind de la nevoile celor care le vor numi acasă.</p><div class="chips rv" style="transition-delay:.3s"><span>Viziune</span><span>Rigoare</span><span>Încredere</span></div></div><div class="ft"><span class="lb">Viziune · Rigoare · Încredere</span><span class="ar">↘</span></div><i class="pb"></i></article>
+  </div>
+
+  <section class="team" id="echipa"><span class="lb"><b>(</b>06 — Echipa<b>)</b></span><h2 data-anim="alt">Oamenii din spatele proiectelor.</h2>
+   <div class="nums"><div class="num"><b data-count="25" data-suf="+">0</b><span class="lb">Sergiu · ani de experiență</span></div><div class="num"><b data-count="10" data-suf="+">0</b><span class="lb">Andrei · ani de experiență</span></div></div></section>
+
+  <section class="proj" id="proiect"><span class="lb"><b>(</b>07 — Primul proiect<b>)</b></span><h2 data-anim="dots">În pregătire</h2>
+      <div class="box"><div class="t"><span class="lb">Rezidențial · București</span><i></i></div>
+    <div class="ph"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="#1a0d06" stroke-width="1.4" opacity=".75"><line x1="0" y1="150" x2="320" y2="150"/><rect x="86" y="108" width="104" height="42" fill="#f1e8de" fill-opacity=".5"/><rect x="104" y="84" width="96" height="24" fill="#f1e8de" fill-opacity=".5"/><rect x="190" y="118" width="62" height="32" fill="#f1e8de" fill-opacity=".5"/><circle cx="62" cy="128" r="18"/><circle cx="276" cy="124" r="22"/></g></svg></div>
+    <h3>Primul nostru proiect</h3><p>Pe viitor, portofoliul va include și alte proprietăți imobiliare, noi și existente, oferite spre vânzare.</p><a class="ar" href="#contact">↘</a><div style="height:30px"></div></div>
+  </section>
+ </div>
+</main>
+
+<section class="ct" id="contact">
+ <div><span class="lb"><b>(</b>Contact<b>)</b></span><h2 data-anim="wave">Să vorbim<i>.</i></h2><p class="l">Căutați o locuință, sunteți investitor sau partener? Scrieți-ne și revenim în cel mai scurt timp.</p></div>
+ <form class="f" onsubmit="return false"><div><label class="lb">Nume</label><input></div><div><label class="lb">Email</label><input type="email"></div><div><label class="lb">Telefon</label><input></div><div><label class="lb">Subiect</label><input></div><div class="w"><label class="lb">Mesaj</label><textarea rows="2"></textarea></div><button class="btn"><i></i>Trimite mesajul</button></form>
+</section>
+<footer class="ftr"><span>EMILIA DEVELOPMENT GROUP S.R.L. · București, Sector 3</span><span>© 2026 Emilia Development Group</span></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* Emilia Development Group — poveste v3: fundal WebGL cu parallax, desen SVG construit pe scroll, carduri stivuite, titlu care se aprinde.
+   Fără biblioteci (Lenis, opțional, doar pentru inerția scroll-ului). Respectă „reduce motion”, cu buton de activare. */
+window.__startStory = () => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), lerp = (a, b, t) => a + (b - a) * t;
+  const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const root = document.documentElement;
+
+  /* ---------- mișcare ---------- */
+  const sysReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ov = false; try { ov = localStorage.edgMotion === 'on'; } catch (e) {}
+  if (/motion=on/.test(location.search)) ov = true;
+  const reduce = sysReduce && !ov;
+  if (reduce) { root.classList.add('rm'); root.classList.add('rm-sys'); }
+  $('#mt').onclick = () => { try { localStorage.edgMotion = 'on'; } catch (e) {} location.reload(); };
+
+  /* ---------- scena WebGL: culori pe progres (cf) ---------- */
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const col = h => hex(h).map(v => v / 255), mix3 = (a, b, t) => a.map((v, i) => lerp(v, b[i], t));
+  // cf, cer sus, cer jos, sol, soare x, y, culoare soare, strălucire, noapte, nori
+  const G = [
+    [0,   '#0f0805', '#3a1d0d', '#140a05', .70, .30, [1, .66, .40], .55, .10, .30],
+    [1.5, '#160b06', '#5a2f16', '#170b06', .72, .42, [1, .70, .42], .65, 0, .30],
+    [3,   '#1d0f08', '#7a4220', '#1b0e07', .76, .40, [1, .72, .44], .75, 0, .28],
+    [3.9, '#24120a', '#b0612a', '#1f0f08', .78, .30, [1, .66, .38], .90, 0, .28],
+    [4.4, '#1a0d07', '#7a3f1c', '#170b06', .80, .16, [1, .60, .34], .60, .15, .30],
+    [4.9, '#100804', '#3a1c0e', '#120a05', .82, .10, [1, .55, .30], .30, .60, .25],
+    [5.5, '#0c0603', '#2a140a', '#0f0804', .84, .74, [.92, .90, .88], .42, 1, .20],
+    [9,   '#0c0603', '#2a140a', '#0f0804', .84, .74, [.92, .90, .88], .42, 1, .20],
+  ];
+  function gAt(c) {
+    let i = 0; while (i < G.length - 2 && c > G[i + 1][0]) i++;
+    const a = G[i], b = G[i + 1], t = clamp((c - a[0]) / (b[0] - a[0]));
+    return { top: mix3(col(a[1]), col(b[1]), t), bot: mix3(col(a[2]), col(b[2]), t), gr: mix3(col(a[3]), col(b[3]), t),
+      sx: lerp(a[4], b[4], t), sy: lerp(a[5], b[5], t), sc: mix3(a[6], b[6], t), glow: lerp(a[7], b[7], t), night: lerp(a[8], b[8], t), cloud: lerp(a[9], b[9], t) };
+  }
+  const VS = 'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
+  const FS = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+uniform vec2 uRes,uMouse,uSun;
+uniform float uT,uCf,uHor,uNight,uGlow,uCloud;
+uniform vec3 uTop,uBot,uGround,uSunC;
+float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1.,0.)),f.x),mix(h(i+vec2(0.,1.)),h(i+vec2(1.,1.)),f.x),f.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<3;i++){v+=a*n(p);p=p*2.03+7.1;a*=.5;}return v;}
+void main(){
+  vec2 uv=gl_FragCoord.xy/uRes;float asp=uRes.x/uRes.y;float hor=1.-uHor;vec2 m=uMouse;
+  float sk=clamp((uv.y-hor)/(1.-hor),0.,1.);
+  vec3 col=mix(uBot,uTop,pow(sk,.65));
+  vec2 sp=uSun+m*vec2(.012,.008);
+  vec2 dv=vec2((uv.x-sp.x)*asp,uv.y-sp.y);float d=length(dv);
+  col+=uSunC*(exp(-d*d*30.)*.6+exp(-d*4.5)*.2)*uGlow;
+  vec2 sg=uv*vec2(asp,1.)*70.+m*.6;vec2 gi=floor(sg),gf=fract(sg);float rr=h(gi);
+  float star=step(.972,rr)*smoothstep(.22,0.,length(gf-vec2(h(gi+1.7),h(gi+4.2))))*(.55+.45*sin(uT*1.7+rr*60.));
+  col+=vec3(.95,.92,.88)*star*uNight*smoothstep(hor+.05,hor+.4,uv.y);
+  vec2 cp=vec2(uv.x*asp*1.3+uT*.012+uCf*.07+m.x*.05,uv.y*3.2-uCf*.02);
+  float cd=fbm(cp);
+  float cm=smoothstep(.47,.78,cd)*smoothstep(hor+.08,hor+.35,uv.y)*smoothstep(1.02,.7,uv.y)*uCloud;
+  vec3 cc=mix(col*.92,mix(vec3(1.),uSunC,.5)*.42,.35*(1.-uNight)+.05);
+  col=mix(col,cc,cm*.55);
+  float ang=atan(dv.y,dv.x);float rays=pow(n(vec2(ang*7.+uT*.04,uCf*.3)),2.5);
+  col+=uSunC*rays*exp(-d*1.9)*uGlow*.14*(1.-uNight)*smoothstep(hor,hor+.12,uv.y);
+  for(int i=0;i<3;i++){
+    float dd=float(i)/2.;
+    float rg=hor+.03+.08*(1.-dd)+.07*fbm(vec2(uv.x*asp*(.8+1.2*dd)+uCf*(.04+.16*dd)+m.x*(.015+.05*dd),float(i)*5.3));
+    vec3 hc=mix(mix(uBot,uTop,.2),uGround*.82,.28+.6*dd);
+    col=mix(col,hc,smoothstep(rg+.003,rg-.003,uv.y)*.88);
+  }
+  if(uv.y<hor){
+    float t=(hor-uv.y)/hor;
+    col=mix(uGround,uGround*.62,pow(t,.8));
+    col+=uSunC*exp(-pow(abs(uv.x-sp.x)*asp,2.)*6.)*exp(-t*5.)*uGlow*.18*(1.-uNight*.5);
+  }
+  for(int i=0;i<3;i++){
+    float fi=float(i);vec2 q=uv*vec2(asp,1.)*(7.+fi*6.);
+    q.y-=uT*(.03+.015*fi)+uCf*.12*(1.+fi);q.x+=sin(uT*.2+fi)*.3+m.x*(.3+fi*.3);
+    vec2 gq=floor(q),gl2=fract(q);float r=h(gq+fi*19.);
+    float dp=length(gl2-vec2(h(gq+2.3),h(gq+8.1)));
+    col+=uSunC*step(.78,r)*smoothstep(.07,0.,dp)*(.18+.12*fi)*(.5+.5*(1.-uNight));
+  }
+  col+=(h(gl_FragCoord.xy+fract(uT)*100.)-.5)*.03;
+  col*=1.-.55*dot(uv-.5,uv-.5);
+  gl_FragColor=vec4(col,1.);
+}`;
+  const cv = $('#gl'); let GL = null;
+  function initGL() {
+    const g = cv.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' }); if (!g) return;
+    const mk = (t, src) => { const s = g.createShader(t); g.shaderSource(s, src); g.compileShader(s); if (!g.getShaderParameter(s, g.COMPILE_STATUS)) { console.warn(g.getShaderInfoLog(s)); return null; } return s; };
+    const vs = mk(g.VERTEX_SHADER, VS), fs = mk(g.FRAGMENT_SHADER, FS); if (!vs || !fs) return;
+    const pr = g.createProgram(); g.attachShader(pr, vs); g.attachShader(pr, fs); g.linkProgram(pr);
+    if (!g.getProgramParameter(pr, g.LINK_STATUS)) { console.warn(g.getProgramInfoLog(pr)); return; }
+    g.useProgram(pr); const b = g.createBuffer(); g.bindBuffer(g.ARRAY_BUFFER, b); g.bufferData(g.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), g.STATIC_DRAW);
+    const a = g.getAttribLocation(pr, 'a'); g.enableVertexAttribArray(a); g.vertexAttribPointer(a, 2, g.FLOAT, false, 0, 0);
+    const U = {}; ['uRes', 'uMouse', 'uSun', 'uT', 'uCf', 'uHor', 'uNight', 'uGlow', 'uCloud', 'uTop', 'uBot', 'uGround', 'uSunC'].forEach(k => U[k] = g.getUniformLocation(pr, k));
+    GL = { g, U }; root.classList.add('gl-on');
+  }
+  let q = .7;
+  function sizeGL() { const sc = Math.min(devicePixelRatio || 1, 1.25) * q; cv.width = Math.max(2, Math.round(innerWidth * sc)); cv.height = Math.max(2, Math.round(innerHeight * sc)); if (GL) GL.g.viewport(0, 0, cv.width, cv.height); }
+  function drawGL(t) {
+    if (!GL) return; const { g, U } = GL, k = gAt(cfS);
+    g.uniform2f(U.uRes, cv.width, cv.height); g.uniform2f(U.uMouse, ms.x, ms.y); g.uniform2f(U.uSun, k.sx, k.sy);
+    g.uniform1f(U.uT, t / 1000); g.uniform1f(U.uCf, cfS); g.uniform1f(U.uHor, horizon); g.uniform1f(U.uNight, k.night); g.uniform1f(U.uGlow, k.glow); g.uniform1f(U.uCloud, k.cloud);
+    g.uniform3fv(U.uTop, k.top); g.uniform3fv(U.uBot, k.bot); g.uniform3fv(U.uGround, k.gr); g.uniform3fv(U.uSunC, k.sc); g.drawArrays(g.TRIANGLES, 0, 3);
+  }
+
+  /* ---------- stare ---------- */
+  const sv = $('#sv'), story = $('.story');
+  const seg = [{ el: $('#c0'), a: 0, b: .55 }, { el: $('#despre'), a: .55, b: 1 }, { el: $('#stack'), a: 1, b: 6 }, { el: $('#echipa'), a: 6, b: 7 }, { el: $('#proiect'), a: 7, b: 8 }];
+  let vh = innerHeight, cf = 0, cfS = 0, horizon = .78;
+  const ms = { x: 0, y: 0 }, mt = { x: 0, y: 0 };
+  // stele de rezervă (SVG) nu mai sunt necesare cu WebGL; păstrăm elementele pentru cazul fără WebGL
+  const els = $$('[data-a]', sv).map(e => ({ e, a: +e.dataset.a, b: +e.dataset.b, t: e.dataset.t || 'd', m: +(e.dataset.max || 1) }));
+  const ghosts = $$('#ghost span'), mq = $('#mq');
+  const scene = $('#scene'), next = $('#next'), circles = $('#circles'), bar = $('#bar'), cards = $$('.card'), sideA = $$('#side a');
+  const hero = $('.hero .in'), h1 = $('#h1w');
+  // cuvintele titlului (se aprind pe scroll)
+  h1.innerHTML = h1.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' '); const ws = $$('.w', h1);
+
+  /* ---------- animații de text separate pe segment ---------- */
+  function split(el) {
+    const T = el.dataset.anim, label = el.textContent.trim(); el.classList.add(T);
+    if (T === 'sweep' || T === 'dots') { el.setAttribute('aria-label', label); return; }
+    let k = 0; const out = [];
+    const word = (txt, raw) => {
+      if (T === 'mask') return '<span class="m"><span style="--k:' + (k++) + '">' + (txt || raw) + '</span></span>';
+      if (T === 'words' || T === 'scrub') return '<span class="wd' + (T === 'scrub' ? ' w' : '') + '" style="--k:' + (k++) + '">' + (txt || raw) + '</span>';
+      const chars = txt ? [...txt] : [raw];
+      return '<span class="wd">' + chars.map(ch => { const n = k++; return '<span class="c" style="--k:' + n + ';--dir:' + (n % 2 ? 1 : -1) + '">' + ch + '</span>'; }).join('') + '</span>';
+    };
+    [...el.childNodes].forEach(n => {
+      if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(tok => { if (!tok) return; out.push(/^\s+$/.test(tok) ? ' ' : word(tok)); });
+      else out.push(word(null, n.outerHTML));
+    });
+    el.setAttribute('aria-label', label); el.innerHTML = '<span aria-hidden="true">' + out.join('') + '</span>';
+    if (el.dataset.acc) { const l = $$('.wd', el).pop(); if (l) l.classList.add('acc'); }
+  }
+  $$('[data-anim]').forEach(split);
+  const scrubs = $$('.scrub').map(el => ({ el, ws: $$('.w', el), vp: el.dataset.scrub === 'vp', top: 0 }));
+  function measure() {
+    vh = innerHeight; seg.forEach(s => { const r = s.el.getBoundingClientRect(); s.top = r.top + scrollY; s.h = s.el.offsetHeight; });
+    scrubs.forEach(o => { o.top = o.el.getBoundingClientRect().top + scrollY; });
+    const mobile = innerWidth <= 820 || innerWidth / innerHeight < 1.15;
+    sv.setAttribute('viewBox', mobile ? '640 120 900 780' : '225 100 1200 750'); sv.setAttribute('preserveAspectRatio', mobile ? 'xMidYMin meet' : 'xMidYMid slice');
+    const m = sv.getScreenCTM(); if (m) { const pt = sv.createSVGPoint(); pt.x = 0; pt.y = 700; horizon = clamp(pt.matrixTransform(m).y / innerHeight, .3, .95); }
+    sizeGL();
+  }
+  function cfNow() { const c = scrollY + vh * .55; if (c < seg[0].top) return 0; for (const s of seg) if (c < s.top + s.h) return s.a + (s.b - s.a) * clamp((c - s.top) / s.h); return 8; }
+
+  function updateDOM(c) {
+    els.forEach(o => { const t = ease(clamp((c - o.a) / (o.b - o.a))); const e = o.e;
+      if (o.t === 'd') e.style.strokeDashoffset = 1 - t;
+      else if (o.t === 'f') e.style.opacity = t * o.m;
+      else if (o.t === 'g') e.style.transform = `scale(${t})`;
+      else if (o.t === 'r') { e.style.opacity = t; e.style.transform = `translateY(${(1 - t) * 24}px)`; } });
+    const z = ease(clamp((c - 5) / 1)), g = ease(clamp((c - 5.9) / .6)), px = -ms.x * 14, py = ms.y * 6;
+    scene.setAttribute('transform', `translate(${px.toFixed(2)} ${py.toFixed(2)}) translate(1100 700) scale(${lerp(1, .88, z)}) translate(-1100 -700)`); scene.setAttribute('opacity', lerp(1, .22, g).toFixed(3));
+    next.setAttribute('transform', `translate(${(px * 1.4).toFixed(2)} ${(py * 1.2).toFixed(2)})`); next.setAttribute('opacity', ease(clamp((c - 6.8) / .4)).toFixed(3));
+    circles.setAttribute('transform', `translate(${(-ms.x * 26).toFixed(2)} ${(-c * 22 + ms.y * 12).toFixed(2)})`);
+    // hero: titlu care se aprinde + dispare
+    const lit = Math.floor(ws.length * clamp((c - .02) / .3) + .0001); ws.forEach((w, i) => w.classList.toggle('lit', i < lit));
+    hero.style.opacity = reduce ? 1 : (1 - clamp((c - .32) / .22)).toFixed(3); hero.style.transform = reduce ? '' : `translateY(${(-clamp((c - .3) / .25) * 60).toFixed(1)}px)`;
+    // carduri: apar, apoi „se îngroapă” sub următorul
+    cards.forEach((el, k) => { const i = k + 1; el.classList.toggle('buried', c >= i + 1 && i < 5); el.style.setProperty('--p', clamp(c - i).toFixed(3)); });
+    scrubs.forEach(o => { const p = o.vp ? clamp((vh * .82 - (o.top - scrollY)) / (vh * .55)) : clamp((c - 4.7) / .95); const n = Math.floor(o.ws.length * p + .0001); o.ws.forEach((w, i) => w.classList.toggle('lit', i < n)); });
+    // cifră-fantomă pe capitol + bandă de cuvinte legată de scroll
+    const gi = c >= 1 && c < 6 ? Math.floor(c) - 1 : -1; ghosts.forEach((g, i) => g.classList.toggle('on', i === gi));
+    mq.style.setProperty('--mx', (-c * 520).toFixed(1) + 'px'); mq.style.setProperty('--mo', (clamp((c - .08) / .3) * (1 - clamp((c - 5.9) / .5))).toFixed(3));
+    // indice lateral + progres
+    const ci = clamp(Math.floor(c), 0, 7); sideA.forEach((a, i) => a.classList.toggle('on', i === ci));
+    const total = story.offsetHeight - vh; bar.style.width = (clamp((scrollY - story.offsetTop) / total) * 100).toFixed(2) + '%';
+  }
+
+  /* ---------- buclă ---------- */
+  let lenis = null; if (!reduce && window.Lenis) { try { lenis = new Lenis({ lerp: .085, smoothWheel: true }); } catch (e) {} }
+  let running = false, lc = -9, lmx = 9, lmy = 9;
+  let lastT = 0, acc = [], errs = [];
+  addEventListener('error', e => errs.push(String(e.message || e).slice(0, 140)));
+  function loop(t) {
+    if (!running) return;
+    try {
+      if (lenis) lenis.raf(t);
+      cf = cfNow(); cfS += (cf - cfS) * .3; ms.x += (mt.x - ms.x) * .06; ms.y += (mt.y - ms.y) * .06;
+      if (Math.abs(cfS - lc) > .0003 || Math.abs(ms.x - lmx) > .0004 || Math.abs(ms.y - lmy) > .0004) { updateDOM(cfS); lc = cfS; lmx = ms.x; lmy = ms.y; }
+      drawGL(t);
+    } catch (e) { errs.push('bucla: ' + String(e.message || e).slice(0, 120)); }
+    // calitate adaptivă: dacă media cadrelor e lentă, scade rezoluția, apoi trece pe varianta „lite”
+    if (lastT) { const dt = t - lastT; if (dt < 250) acc.push(dt); if (acc.length >= 45) { const avg = acc.reduce((a, b) => a + b, 0) / acc.length; acc = []; window.__fps = Math.round(1000 / avg);
+      if (avg > 28 && q > .42) { q = Math.max(.4, q * .8); sizeGL(); } else if (avg > 34 && q <= .5 && !root.classList.contains('lite')) root.classList.add('lite'); } }
+    lastT = t; requestAnimationFrame(loop);
+  }
+  if (/dbg=1/.test(location.search)) { const d = document.createElement('div'); d.className = 'dbg'; document.body.appendChild(d);
+    setInterval(() => { d.textContent = 'fps ' + (window.__fps || '…') + ' · calitate GL ' + q.toFixed(2) + (root.classList.contains('lite') ? ' · LITE' : '') + '\nWebGL ' + (GL ? 'da' : 'NU') + ' · Lenis ' + (lenis ? 'da' : 'nu') + ' · cf ' + cfS.toFixed(2) + '\nscroll ' + Math.round(scrollY) + '/' + (document.documentElement.scrollHeight - innerHeight) + ' · fereastră ' + innerWidth + 'x' + innerHeight + '\n' + (errs.length ? 'ERORI: ' + errs.slice(-3).join(' | ') : 'fără erori'); }, 500); }
+  const start = () => { if (reduce || running) return; running = true; requestAnimationFrame(loop); }, stop = () => { running = false; };
+  function once() { cf = reduce ? 4.2 : cfNow(); cfS = cf; updateDOM(cfS); drawGL(performance.now()); }
+  addEventListener('resize', () => { measure(); once(); });
+  addEventListener('pointermove', e => { if (e.pointerType === 'touch') return; mt.x = e.clientX / innerWidth * 2 - 1; mt.y = -(e.clientY / innerHeight * 2 - 1); }, { passive: true });
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+  new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? start() : stop())).observe(story);
+  if (reduce) addEventListener('scroll', () => requestAnimationFrame(() => drawGL(performance.now())), { passive: true });
+  window.__edg = { get cf() { return cfS; }, get gl() { return !!GL; }, get running() { return running; }, get lenis() { return !!lenis; } };
+
+  // meniu ecran întreg
+  const menu = $('#menu'), mn = $('#mn');
+  function setMenu(open) { menu.classList.toggle('open', open); document.body.classList.toggle('menu-open', open); menu.setAttribute('aria-hidden', String(!open)); mn.setAttribute('aria-expanded', String(open)); mn.firstChild.textContent = open ? 'Închide ' : 'Meniu '; if (lenis) open ? lenis.stop() : lenis.start(); }
+  mn.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+  // ancore cu derulare fluidă
+  document.addEventListener('click', e => { const a = e.target.closest('a[href^="#"]'); if (!a) return; const el = $(a.getAttribute('href')); if (!el) return; e.preventDefault(); const wasOpen = menu.classList.contains('open'); if (wasOpen) setMenu(false); const go = () => { if (lenis) lenis.scrollTo(el, { offset: a.getAttribute('href') === '#sus' ? 0 : -10 }); else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }; wasOpen ? setTimeout(go, 420) : go(); });
+
+  /* ---------- numărători ---------- */
+  const nums = $$('[data-count]'); let counted = false;
+  new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting && !counted) { counted = true; nums.forEach(n => { const to = +n.dataset.count, t0 = performance.now(); (function f(t) { const k = ease(clamp((t - t0) / 1700)); n.innerHTML = Math.round(to * k) + (k >= 1 ? '<sup>' + n.dataset.suf + '</sup>' : ''); if (k < 1) requestAnimationFrame(f); })(t0); }); }
+    else if (!e.isIntersecting && e.boundingClientRect.top > 0) { counted = false; nums.forEach(n => n.textContent = '0'); }
+  }), { rootMargin: '-25% 0px -25% 0px' }).observe($('#echipa'));
+
+  const cardIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('on', e.isIntersecting)), { rootMargin: '-12% 0px -8% 0px', threshold: .35 });
+  cards.forEach(c => cardIO.observe(c));
+  const secIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('on', e.isIntersecting)), { rootMargin: '-22% 0px -22% 0px' });
+  ['#despre', '#echipa', '#proiect', '#contact'].forEach(q => secIO.observe($(q)));
+  /* ---------- pornire ---------- */
+  try { history.scrollRestoration = 'manual'; } catch (e) {}
+  function init() {
+    initGL(); measure();
+    const q = new URLSearchParams(location.search).get('cf');
+    if (q !== null) { const v = +q; let s = seg[0]; for (const x of seg) if (v >= x.a) s = x; const top = s.top + clamp((v - s.a) / (s.b - s.a)) * s.h - vh * .55; if (lenis) lenis.scrollTo(top, { immediate: true }); else scrollTo({ top, behavior: 'instant' }); }
+    once(); if (!reduce) start();
+  }
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(init);
+};
+
+
+(() => {
+  const SHA = 'f35f1080e1a4900570f272e5af2352db130dad2b0417446623770f9fc57f9aad', FNV = 'c12c61a7', SALT = 'emilia-dev-group:';
+  const gate = document.getElementById('gate'), form = document.getElementById('gf'), inp = document.getElementById('gpin'), err = document.getElementById('gerr');
+  const fnv = s => { let h = 0x811c9dc5; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(16); };
+  async function ok(p) {
+    try { if (window.crypto && crypto.subtle) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(SALT + p)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('') === SHA; } } catch (e) {}
+    return fnv(SALT + p) === FNV;
+  }
+  let started = false;
+  function open() { if (started) return; started = true; document.documentElement.classList.remove('locked'); gate.classList.add('out'); try { sessionStorage.edgPin = '1'; } catch (e) {} window.__startStory(); setTimeout(() => gate.remove(), 900); }
+  async function check() { const p = inp.value.trim(); if (p.length < 4) return; if (await ok(p)) open(); else { err.textContent = 'Cod incorect. Încercați din nou.'; gate.classList.remove('shake'); void gate.offsetWidth; gate.classList.add('shake'); inp.value = ''; inp.focus(); } }
+  form.addEventListener('submit', e => { e.preventDefault(); check(); });
+  inp.addEventListener('input', () => { inp.value = inp.value.replace(/\D/g, ''); err.textContent = ''; if (inp.value.length === 4) check(); });
+  let saved = false; try { saved = sessionStorage.edgPin === '1'; } catch (e) {}
+  if (saved) open(); else setTimeout(() => inp.focus(), 50);
+})();
+
+</script>
+</body>
+</html>
