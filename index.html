@@ -635,12 +635,14 @@ void main(){
     return fnv(SALT + p) === FNV;
   }
   let started = false;
-  function open() { if (started) return; started = true; document.documentElement.classList.remove('locked'); gate.classList.add('out'); try { sessionStorage.edgPin = '1'; } catch (e) {} window.__startStory(); setTimeout(() => gate.remove(), 900); }
+  function open() { if (started) return; started = true; try { const u = new URL(location.href); if (u.searchParams.has('pin')) { u.searchParams.delete('pin'); history.replaceState(null, '', u.toString()); } } catch (e) {} document.documentElement.classList.remove('locked'); gate.classList.add('out'); try { sessionStorage.edgPin = '1'; } catch (e) {} window.__startStory(); setTimeout(() => gate.remove(), 900); }
   async function check() { const p = inp.value.trim(); if (p.length < 4) return; if (await ok(p)) open(); else { err.textContent = 'Cod incorect. Încercați din nou.'; gate.classList.remove('shake'); void gate.offsetWidth; gate.classList.add('shake'); inp.value = ''; inp.focus(); } }
   form.addEventListener('submit', e => { e.preventDefault(); check(); });
   inp.addEventListener('input', () => { inp.value = inp.value.replace(/\D/g, ''); err.textContent = ''; if (inp.value.length === 4) check(); });
   let saved = false; try { saved = sessionStorage.edgPin === '1'; } catch (e) {}
-  if (saved) open(); else setTimeout(() => inp.focus(), 50);
+  // acces direct pentru Mihai: ?pin=XXXX în adresă (PIN-ul nu e în repo, doar în linkul lui)
+  const qp = new URLSearchParams(location.search).get('pin');
+  if (saved) open(); else { setTimeout(() => inp.focus(), 50); if (qp && /^\d{4}$/.test(qp)) ok(qp).then(v => { if (v) open(); }); }
 })();
 
 </script>
